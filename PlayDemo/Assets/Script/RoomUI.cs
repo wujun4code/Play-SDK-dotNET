@@ -8,19 +8,21 @@ using LeanCloud;
 public class RoomUI : PlayMonoBehaviour {
 	public InputField roomIdInputField = null;
 
-	// 点击事件
-	public void onCreateRoomBtnClicked() {
-		string roomId = roomIdInputField.text;
-		if (string.IsNullOrEmpty(roomId)) {
-			Debug.Log("room id is null");
-			return;
-		}
+    // 点击事件
+    public void onCreateRoomBtnClicked()
+    {
+        string roomId = roomIdInputField.text;
+        if (string.IsNullOrEmpty(roomId))
+        {
+            Debug.Log("room id is null");
+            return;
+        }
 
         Debug.Log("creating room...");
-		GlobalUI.Instantce.ShowLoading();
-        PlayRoom room = new PlayRoom(roomId);
-        room.MaxPlayerCount = 4;
-        Play.CreateRoom(room);
+        GlobalUI.Instantce.ShowLoading();
+        var roomConfig = PlayRoom.PlayRoomConfig.Default;
+        roomConfig.MaxPlayerCount = 4;
+        Play.CreateRoom(roomConfig, roomId);
 	}
 
 	public void onJoinRoomBtnClicked() {
