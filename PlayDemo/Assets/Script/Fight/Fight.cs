@@ -244,7 +244,7 @@ public class Fight : PlayMonoBehaviour
     public void rpcDiscard(int playerId) 
     {
         IEnumerable<LeanCloud.Player> players = Play.Room.Players;
-        // 设置棋牌玩家状态
+        // 设置弃牌玩家状态
         LeanCloud.Player player = players.FirstOrDefault(p => p.ActorID == playerId);
         if (player != null) {
             Hashtable prop = new Hashtable();
