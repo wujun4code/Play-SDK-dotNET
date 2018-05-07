@@ -4,7 +4,7 @@
 
 ```
 ├── Assets                                      // 资源主目录
-	├── LeanCloud                                   // LeanCloud 插件目录
+    ├── LeanCloud                               // LeanCloud 插件目录
 	├── Poker                                       // 扑克牌素材资源
 	├── Resources                                   // 预制体资源
 	├── Scene                                       // 场景资源
