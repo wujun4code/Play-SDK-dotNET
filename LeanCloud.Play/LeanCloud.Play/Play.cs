@@ -263,27 +263,14 @@ namespace LeanCloud
 		}
 
 		/// <summary>
-		/// create a game Room.
+		/// Creates the room.
 		/// </summary>
-		/// <param name="roomName">MUST be alphanumeric coded character set without special character(such as !@$*), best practice can be "abc_123" and "ranking_game_001"</param>
-		/// <returns></returns>
-		public static void CreateRoom(string roomName = null)
+		/// <param name="roomName">Room name.</param>
+		/// <param name="expectedUsers">Expected users.</param>
+		public static void CreateRoom(string roomName = null, IEnumerable<string> expectedUsers = null)
 		{
 			var config = PlayRoom.PlayRoomConfig.Default;
-			CreateRoom(config, roomName);
-		}
-
-		/// <summary>
-		/// create room.
-		/// </summary>
-		/// <param name="roomName">room name</param>
-		/// <param name="expectedUsers">expected users</param>
-		public static void CreateRoom(IEnumerable<string> expectedUsers, string roomName = null)
-		{
-			var config = new PlayRoom.PlayRoomConfig()
-			{
-				ExpectedUsers = expectedUsers
-			};
+			config.ExpectedUsers = expectedUsers;
 
 			CreateRoom(config, roomName);
 		}
@@ -381,27 +368,13 @@ namespace LeanCloud
 		}
 
 		/// <summary>
-		/// join or create a Room.
-		/// </summary>
-		/// <param name="roomName">Room name</param>
-		/// <param name="expectedUsers">expected user id(s)</param>
-		public static void JoinOrCreateRoom(string roomName = null, IEnumerable<string> expectedUsers = null)
-		{
-			var room = new PlayRoom()
-			{
-				ExpectedUsers = expectedUsers,
-				Name = roomName,
-			};
-			JoinOrCreateRoom(room);
-		}
-
-		/// <summary>
 		/// Joins the or create room.
 		/// </summary>
+		/// <param name="roomName">Room name.</param>
 		/// <param name="roomConfig">Room config.</param>
-		public static void JoinOrCreateRoom(PlayRoom.PlayRoomConfig roomConfig)
+		public static void JoinOrCreateRoom(string roomName, PlayRoom.PlayRoomConfig roomConfig)
 		{
-			var room = new PlayRoom(roomConfig, null);
+			var room = new PlayRoom(roomConfig, roomName);
 			JoinOrCreateRoom(room);
 		}
 
@@ -423,7 +396,18 @@ namespace LeanCloud
 				},
 				Method = "POST"
 			};
-			RunHttpCommand(joinRoomCommand, PlayEventCode.OnJoinOrCreatingRoom, DoJoinRoom);
+
+			RunHttpCommand(joinRoomCommand, PlayEventCode.OnJoinOrCreatingRoom, (req, res) =>
+			{
+				if (res.Body.ContainsKey("room"))
+				{
+					DoJoinRoom(req, res);
+				}
+				else
+				{
+					DoCreateRoom(room, res);
+				}
+			});
 		}
 
 		/// <summary>
@@ -434,7 +418,10 @@ namespace LeanCloud
 		{
 			if (roomName == null)
 			{
-				roomName = Play.Room.Name;
+				if (Play.Room != null)
+				{
+					roomName = Play.Room.Name;
+				}
 			}
 			Play.JoinRoom(roomName);
 		}
