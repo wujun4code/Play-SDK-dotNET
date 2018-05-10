@@ -9,11 +9,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{9E4654
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{26BB22A7-C424-4207-A7F3-049C00D6DA78}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeanCloud.Play.ClassDefine.NetCore2", "Common\Core20\LeanCloud.Play.ClassDefine.NetCore2.csproj", "{1496F216-F785-4721-BBF0-14DA9335013C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanCloud.Play.ClassDefine.NetCore2", "Common\Core20\LeanCloud.Play.ClassDefine.NetCore2.csproj", "{1496F216-F785-4721-BBF0-14DA9335013C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanCloud.Play.ClassDefine.NextFx35", "Common\Fx35\LeanCloud.Play.ClassDefine.NextFx35.csproj", "{B31EF744-0F5A-450F-90DC-F6602B21E227}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeanCloud.Play.Server.NetCore2", "Server\LeanCloud.Play.Server.NetCore2\LeanCloud.Play.Server.NetCore2.csproj", "{BA66970E-FB52-4854-93A0-210A843E9CAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanCloud.Play.Server.NetCore2", "Server\LeanCloud.Play.Server.NetCore2\LeanCloud.Play.Server.NetCore2.csproj", "{BA66970E-FB52-4854-93A0-210A843E9CAA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanCloud.Play.Unity.NetFx35", "LeanCloud.Play\LeanCloud.Play.Unity.NetFx35.csproj", "{9792F770-0EB1-484B-8882-A126CDF6C2A3}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanCloud.Play.Unity", "LeanCloud.Play\LeanCloud.Play.Unity.csproj", "{67615624-CC2B-4DCB-9495-18D2C3432BAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanCloud.Play.Portable", "LeanCloud.Play\LeanCloud.Play.Portable.csproj", "{CCF37D4A-CCFB-4373-A7E4-4C4F73267FC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest.Mono", "LeanCloud.Play\Test\LeanCloud.Play.TestUnit.Mono\UnitTest.Mono\UnitTest.Mono.csproj", "{3D7BCA15-6631-4282-8013-BA574093EA06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{CCF37D4A-CCFB-4373-A7E4-4C4F73267FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCF37D4A-CCFB-4373-A7E4-4C4F73267FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCF37D4A-CCFB-4373-A7E4-4C4F73267FC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D7BCA15-6631-4282-8013-BA574093EA06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D7BCA15-6631-4282-8013-BA574093EA06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D7BCA15-6631-4282-8013-BA574093EA06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D7BCA15-6631-4282-8013-BA574093EA06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +78,7 @@ Global
 		{3F123D76-42DA-4151-865A-FFFFCEBB2CC1} = {678B6BC0-3F53-45F6-996C-92B70B65E568}
 		{67615624-CC2B-4DCB-9495-18D2C3432BAF} = {70FCF055-5313-4F73-A768-229BC54A3271}
 		{CCF37D4A-CCFB-4373-A7E4-4C4F73267FC7} = {70FCF055-5313-4F73-A768-229BC54A3271}
+		{3D7BCA15-6631-4282-8013-BA574093EA06} = {678B6BC0-3F53-45F6-996C-92B70B65E568}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F4004E67-3C9D-4B20-B6C9-E3315FA62E79}
