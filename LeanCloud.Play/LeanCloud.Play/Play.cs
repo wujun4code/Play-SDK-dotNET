@@ -72,7 +72,14 @@ namespace LeanCloud
 #else
 			Play.EventBehaviours.When(kv => kv.Key == eventCode.ToString()).Every(kv =>
 			{
-				kv.Value.Every(b => Play.Find<PlayEventAttribute>(b, kv.Key).Invoke(b, parameters.Length > 0 ? parameters : null));
+				kv.Value.Every(b =>
+				{
+					var callbackMethod = Play.Find<PlayEventAttribute>(b, kv.Key);
+					if (callbackMethod != null)
+					{
+						callbackMethod.Invoke(b, parameters.Length > 0 ? parameters : null);
+					}
+				});
 			});
 #endif
 		}
@@ -384,6 +391,7 @@ namespace LeanCloud
 		/// <param name="room">Room instance</param>
 		public static void JoinOrCreateRoom(PlayRoom room)
 		{
+
 			var joinRoomCommand = new PlayCommand()
 			{
 				RelativeUrl = "/room/" + room.Name + "/members",
@@ -392,10 +400,13 @@ namespace LeanCloud
 					{ "client_id" , peer.ID },
 					{ "room_id", room.Name },
 					{ "create", true },
-					{ "expect_members", room.ExpectedUsers.ToArray() }
 				},
 				Method = "POST"
 			};
+			if (room.ExpectedUsers != null)
+			{
+				joinRoomCommand.Body.Add("expect_members", room.ExpectedUsers.ToArray());
+			}
 
 			RunHttpCommand(joinRoomCommand, PlayEventCode.OnJoinOrCreatingRoom, (req, res) =>
 			{
