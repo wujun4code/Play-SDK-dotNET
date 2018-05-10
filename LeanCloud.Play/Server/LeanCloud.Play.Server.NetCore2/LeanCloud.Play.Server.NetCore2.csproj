@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>LeanCloud.Play.Server</AssemblyName>
+    <RootNamespace>LeanCloud</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SocketIo.Core" Version="2.0.0" />
+  </ItemGroup>
+
+</Project>
