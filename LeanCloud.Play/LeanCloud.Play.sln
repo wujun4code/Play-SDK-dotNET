@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Play", "Play", "{70FCF055-5313-4F73-A768-229BC54A3271}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{9E4654A7-E7F6-4F36-9F1C-C4DA2446745E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{26BB22A7-C424-4207-A7F3-049C00D6DA78}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeanCloud.Play.ClassDefine.NetCore2", "Common\Core20\LeanCloud.Play.ClassDefine.NetCore2.csproj", "{1496F216-F785-4721-BBF0-14DA9335013C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanCloud.Play.ClassDefine.NextFx35", "Common\Fx35\LeanCloud.Play.ClassDefine.NextFx35.csproj", "{B31EF744-0F5A-450F-90DC-F6602B21E227}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeanCloud.Play.Server.NetCore2", "Server\LeanCloud.Play.Server.NetCore2\LeanCloud.Play.Server.NetCore2.csproj", "{BA66970E-FB52-4854-93A0-210A843E9CAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanCloud.Play.Unity.NetFx35", "LeanCloud.Play\LeanCloud.Play.Unity.NetFx35.csproj", "{9792F770-0EB1-484B-8882-A126CDF6C2A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{678B6BC0-3F53-45F6-996C-92B70B65E568}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUnit.NetFx46", "LeanCloud.Play\Test\LeanCloud.Play.TextUnit.NetFx46\TestUnit.NetFx46.csproj", "{3F123D76-42DA-4151-865A-FFFFCEBB2CC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanCloud.Play.Unity", "LeanCloud.Play\LeanCloud.Play.Unity.csproj", "{67615624-CC2B-4DCB-9495-18D2C3432BAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeanCloud.Play.Portable", "LeanCloud.Play\LeanCloud.Play.Portable.csproj", "{CCF37D4A-CCFB-4373-A7E4-4C4F73267FC7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1496F216-F785-4721-BBF0-14DA9335013C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1496F216-F785-4721-BBF0-14DA9335013C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1496F216-F785-4721-BBF0-14DA9335013C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1496F216-F785-4721-BBF0-14DA9335013C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B31EF744-0F5A-450F-90DC-F6602B21E227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B31EF744-0F5A-450F-90DC-F6602B21E227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B31EF744-0F5A-450F-90DC-F6602B21E227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B31EF744-0F5A-450F-90DC-F6602B21E227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA66970E-FB52-4854-93A0-210A843E9CAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA66970E-FB52-4854-93A0-210A843E9CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA66970E-FB52-4854-93A0-210A843E9CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA66970E-FB52-4854-93A0-210A843E9CAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9792F770-0EB1-484B-8882-A126CDF6C2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9792F770-0EB1-484B-8882-A126CDF6C2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9792F770-0EB1-484B-8882-A126CDF6C2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9792F770-0EB1-484B-8882-A126CDF6C2A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F123D76-42DA-4151-865A-FFFFCEBB2CC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F123D76-42DA-4151-865A-FFFFCEBB2CC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F123D76-42DA-4151-865A-FFFFCEBB2CC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F123D76-42DA-4151-865A-FFFFCEBB2CC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67615624-CC2B-4DCB-9495-18D2C3432BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67615624-CC2B-4DCB-9495-18D2C3432BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67615624-CC2B-4DCB-9495-18D2C3432BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67615624-CC2B-4DCB-9495-18D2C3432BAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCF37D4A-CCFB-4373-A7E4-4C4F73267FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCF37D4A-CCFB-4373-A7E4-4C4F73267FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCF37D4A-CCFB-4373-A7E4-4C4F73267FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCF37D4A-CCFB-4373-A7E4-4C4F73267FC7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1496F216-F785-4721-BBF0-14DA9335013C} = {26BB22A7-C424-4207-A7F3-049C00D6DA78}
+		{B31EF744-0F5A-450F-90DC-F6602B21E227} = {26BB22A7-C424-4207-A7F3-049C00D6DA78}
+		{BA66970E-FB52-4854-93A0-210A843E9CAA} = {9E4654A7-E7F6-4F36-9F1C-C4DA2446745E}
+		{9792F770-0EB1-484B-8882-A126CDF6C2A3} = {70FCF055-5313-4F73-A768-229BC54A3271}
+		{678B6BC0-3F53-45F6-996C-92B70B65E568} = {70FCF055-5313-4F73-A768-229BC54A3271}
+		{3F123D76-42DA-4151-865A-FFFFCEBB2CC1} = {678B6BC0-3F53-45F6-996C-92B70B65E568}
+		{67615624-CC2B-4DCB-9495-18D2C3432BAF} = {70FCF055-5313-4F73-A768-229BC54A3271}
+		{CCF37D4A-CCFB-4373-A7E4-4C4F73267FC7} = {70FCF055-5313-4F73-A768-229BC54A3271}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F4004E67-3C9D-4B20-B6C9-E3315FA62E79}
+	EndGlobalSection
+EndGlobal
