@@ -242,6 +242,30 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="AssemblyLister">
+      <HintPath>Assets/Plugins/AssemblyLister.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Core">
+      <HintPath>Assets/Plugins/LeanCloud.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Play">
+      <HintPath>Assets/Plugins/LeanCloud.Play.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Realtime">
+      <HintPath>Assets/Plugins/LeanCloud.Realtime.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Storage">
+      <HintPath>Assets/Plugins/LeanCloud.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Compat">
+      <HintPath>Assets/Plugins/Unity.Compat.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Tasks">
+      <HintPath>Assets/Plugins/Unity.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>Assets/Plugins/websocket-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Advertisements">
       <HintPath>/Users/onerainyu/Library/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.4/UnityEngine.Advertisements.dll</HintPath>
     </Reference>
@@ -253,30 +277,6 @@
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>/Users/onerainyu/Library/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="LeanCloud.Play">
-      <HintPath>Assets/Plugins/LeanCloud.Play.dll</HintPath>
-    </Reference>
-    <Reference Include="LeanCloud.Core">
-      <HintPath>Assets/Plugins/LeanCloud.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="AssemblyLister">
-      <HintPath>Assets/Plugins/AssemblyLister.dll</HintPath>
-    </Reference>
-    <Reference Include="LeanCloud.Realtime">
-      <HintPath>Assets/Plugins/LeanCloud.Realtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Compat">
-      <HintPath>Assets/Plugins/Unity.Compat.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Tasks">
-      <HintPath>Assets/Plugins/Unity.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="websocket-sharp">
-      <HintPath>Assets/Plugins/websocket-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="LeanCloud.Storage">
-      <HintPath>Assets/Plugins/LeanCloud.Storage.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
