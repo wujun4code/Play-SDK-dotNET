@@ -34,7 +34,7 @@ namespace TestUnit.NetFx46.Docs
 
             Play.CreateRoom();
 
-            Play.CreateRoom(new string[] { "bill", "steve" });
+			Play.CreateRoom(expectedUsers: new string[] { "bill", "steve" });
 
             var roomConfig = new PlayRoom.PlayRoomConfig()
             {
