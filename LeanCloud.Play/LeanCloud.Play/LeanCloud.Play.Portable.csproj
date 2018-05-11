@@ -37,18 +37,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AssemblyLister, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LeanCloud.Storage.2018.2.24.1\lib\net45\AssemblyLister.dll</HintPath>
-    </Reference>
-    <Reference Include="LeanCloud.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LeanCloud.Storage.2018.2.24.1\lib\net45\LeanCloud.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="LeanCloud.Realtime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LeanCloud.Realtime.2018.2.27.2\lib\net45\LeanCloud.Realtime.dll</HintPath>
-    </Reference>
-    <Reference Include="LeanCloud.Storage, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LeanCloud.Storage.2018.2.24.1\lib\net45\LeanCloud.Storage.dll</HintPath>
-    </Reference>
     <Reference Include="PCLStorage, Version=1.0.2.0, Culture=neutral, PublicKeyToken=286fe515a2c35b64, processorArchitecture=MSIL">
       <HintPath>..\packages\PCLStorage.1.0.2\lib\net45\PCLStorage.dll</HintPath>
     </Reference>
@@ -70,6 +58,18 @@
     </Reference>
     <Reference Include="WebSockets.PCL, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Websockets.Pcl.1.1.9\lib\net45\WebSockets.PCL.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Realtime">
+      <HintPath>..\packages\LeanCloud.Realtime.2018.4.13.1\lib\net45\LeanCloud.Realtime.dll</HintPath>
+    </Reference>
+    <Reference Include="AssemblyLister">
+      <HintPath>..\packages\LeanCloud.Storage.2018.3.2.1\lib\net45\AssemblyLister.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Core">
+      <HintPath>..\packages\LeanCloud.Storage.2018.3.2.1\lib\net45\LeanCloud.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Storage">
+      <HintPath>..\packages\LeanCloud.Storage.2018.3.2.1\lib\net45\LeanCloud.Storage.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
