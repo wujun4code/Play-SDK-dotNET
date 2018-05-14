@@ -18,7 +18,7 @@ namespace LeanCloud
         /// <summary>
         /// room config before create it.
         /// </summary>
-        public struct PlayRoomConfig
+        public struct RoomConfig
         {
             /// <summary>
             /// set a custom properties for room before create it.
@@ -52,11 +52,11 @@ namespace LeanCloud
             /// <summary>
             /// deafult config
             /// </summary>
-            public static PlayRoomConfig Default
+            public static RoomConfig Default
             {
                 get
                 {
-                    return new PlayRoomConfig()
+                    return new RoomConfig()
                     {
                         IsOpen = true,
                         IsVisible = true
@@ -68,7 +68,7 @@ namespace LeanCloud
         /// <summary>
         /// room config
         /// </summary>
-        public PlayRoomConfig Config { get; set; }
+        public RoomConfig Config { get; set; }
 
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace LeanCloud
             this.Name = name;
         }
 
-        internal PlayRoom(PlayRoomConfig config, string name) : this(name)
+        internal PlayRoom(RoomConfig config, string name) : this(name)
         {
             this.Config = config;
 

@@ -264,7 +264,7 @@ namespace LeanCloud
 		/// <summary>
 		/// state of current peer.
 		/// </summary>
-		public static PlayPeer.PlayPeerState PeerState
+		internal static PlayPeer.PlayPeerState PeerState
 		{
 			get { return peer.PeerState; }
 		}
@@ -276,7 +276,7 @@ namespace LeanCloud
 		/// <param name="expectedUsers">Expected users.</param>
 		public static void CreateRoom(string roomName = null, IEnumerable<string> expectedUsers = null)
 		{
-			var config = PlayRoom.PlayRoomConfig.Default;
+			var config = PlayRoom.RoomConfig.Default;
 			config.ExpectedUsers = expectedUsers;
 
 			CreateRoom(config, roomName);
@@ -287,7 +287,7 @@ namespace LeanCloud
 		/// </summary>
 		/// <param name="config">config of Room</param>
 		/// <param name="roomName">name of Room</param>
-		public static void CreateRoom(PlayRoom.PlayRoomConfig config, string roomName = null)
+		public static void CreateRoom(PlayRoom.RoomConfig config, string roomName = null)
 		{
 			var room = new PlayRoom(config, roomName);
 
@@ -379,7 +379,7 @@ namespace LeanCloud
 		/// </summary>
 		/// <param name="roomName">Room name.</param>
 		/// <param name="roomConfig">Room config.</param>
-		public static void JoinOrCreateRoom(string roomName, PlayRoom.PlayRoomConfig roomConfig)
+		public static void JoinOrCreateRoom(string roomName, PlayRoom.RoomConfig roomConfig)
 		{
 			var room = new PlayRoom(roomConfig, roomName);
 			JoinOrCreateRoom(room);
@@ -552,20 +552,20 @@ namespace LeanCloud
 		{
 			if (!response.IsSuccessful)
 			{
-				Play.InvokeEvent(PlayEventCode.OnCreateRoomFailed, response.ErrorCode, response.ErrorReason);
+				//Play.InvokeEvent(PlayEventCode.OnCreateRoomFailed, response.ErrorCode, response.ErrorReason);
+				return;
 			}
-			else
-			{
-				GetRoomWhenCreate(room, response);
-				ConnectRoom(room, true);
-			}
+
+			GetRoomWhenCreate(room, response);
+			ConnectRoom(room, true);
+
 		}
 
 		internal static void DoJoinRoom(PlayCommand request, PlayResponse response)
 		{
 			if (!response.IsSuccessful)
 			{
-				Play.InvokeEvent(PlayEventCode.OnJoinRoomFailed, response.ErrorCode, response.ErrorReason);
+				//Play.InvokeEvent(PlayEventCode.OnJoinRoomFailed, response.ErrorCode, response.ErrorReason);
 				return;
 			}
 			var room = GetRoomWhenGet(request, response);
@@ -962,7 +962,14 @@ namespace LeanCloud
 				if (eventCode != PlayEventCode.None)
 				{
 					var next = PlayStateMachine.Next(eventCode, response);
-					Play.InvokeEvent(next);
+					if (response.IsSuccessful)
+					{
+						Play.InvokeEvent(next);
+					}
+					else
+					{
+						Play.InvokeEvent(next, response.ErrorCode, response.ErrorReason);
+					}
 				}
 
 			}));
@@ -992,16 +999,22 @@ namespace LeanCloud
 							}
 						}
 
-
 						if (eventCode != PlayEventCode.None)
 						{
 							var next = PlayStateMachine.Next(eventCode, response);
-							Play.InvokeEvent(next);
+							if (response.IsSuccessful)
+							{
+								Play.InvokeEvent(next);
+							}
+							else
+							{
+								Play.InvokeEvent(next, response.ErrorCode, response.ErrorReason);
+							}
 						}
 					}
 				}
+				RoomConnection.OnMessage += onMessage;
 			};
-			RoomConnection.OnMessage += onMessage;
 		}
 
 		#endregion
