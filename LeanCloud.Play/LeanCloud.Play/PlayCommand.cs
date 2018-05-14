@@ -8,180 +8,195 @@ using System.Threading.Tasks;
 
 namespace LeanCloud
 {
-    /// <summary>
-    /// an action from Player will be packed as a command sent to LeanCloud Game server.
-    /// </summary>
-    public class PlayCommand
-    {
+	/// <summary>
+	/// an action from Player will be packed as a command sent to LeanCloud Game server.
+	/// </summary>
+	public class PlayCommand
+	{
 
-        /// <summary>
-        /// play command
-        /// </summary>
-        public PlayCommand()
-        {
+		/// <summary>
+		/// play command
+		/// </summary>
+		public PlayCommand()
+		{
 
-        }
+		}
 
-        internal readonly string GameRouterSchema = "https";
-        internal readonly string GameRouterHost = "game-router-cn-e1.leancloud.cn";
-        internal readonly string ApiVersion = "v1";
-        internal static IDictionary<string, object> headers;
-        public static IDictionary<string, object> Headers
-        {
-            get
-            {
-                if (headers == null)
-                {
-                    headers = new Dictionary<string, object>();
-                    headers.Add(new KeyValuePair<string, object>("X-LC-ID", AVClient.CurrentConfiguration.ApplicationId));
-                    headers.Add(new KeyValuePair<string, object>("Content-Type", "application/json"));
-                }
-                return headers;
-            }
-        }
-        const string SESSION_TOKEN_KEY = "X-LC-Play-Session-Token";
-        internal static void SetAuthentication(string sessionToken)
-        {
-            if (!Headers.ContainsKey(SESSION_TOKEN_KEY))
-            {
-                headers.Add(new KeyValuePair<string, object>(SESSION_TOKEN_KEY, sessionToken));
-            }
-            else
-            {
-                headers[SESSION_TOKEN_KEY] = sessionToken;
-            }
-        }
+		internal readonly string GameRouterSchema = "https";
+		internal readonly string NorthChinaGameRouterHost = "game-router-cn-n1.leancloud.cn";
+		internal readonly string EastChinaGameRouterHost = "game-router-cn-e1.leancloud.cn";
 
-        public string RelativeUrl { get; set; }
-        public IDictionary<string, object> Body { get; set; }
-        public string Method { get; set; }
 
-        public HttpRequest HttpEncode
-        {
-            get
-            {
-                var method = HttpMethod;
-                var headers = Headers;
-                if (method == "GET" || method == "DELETE")
-                {
-                    headers = Headers.Filter(new string[] { "Content-Type" });
-                }
-                return new HttpRequest()
-                {
-                    Data = Body != null ? new MemoryStream(Encoding.UTF8.GetBytes(Json.Encode(Body))) : null,
-                    Headers = headers.ToDictionary(x => x.Key, x => x.Value.ToString()).ToList(),
-                    Method = method,
-                    Uri = HttpUri
-                };
-            }
-        }
+		internal string GameRouterHost
+		{
+			get
+			{
+				if (AVClient.CurrentConfiguration.Region == AVClient.Configuration.AVRegion.Vendor_Tencent)
+				{
+					return EastChinaGameRouterHost;
+				}
+				return NorthChinaGameRouterHost;
+			}
+		}
 
-        public IDictionary<string, object> UrlParameters { get; set; }
+		internal readonly string ApiVersion = "v1";
+		internal static IDictionary<string, object> headers;
+		public static IDictionary<string, object> Headers
+		{
+			get
+			{
+				if (headers == null)
+				{
+					headers = new Dictionary<string, object>();
+					headers.Add(new KeyValuePair<string, object>("X-LC-ID", AVClient.CurrentConfiguration.ApplicationId));
+					headers.Add(new KeyValuePair<string, object>("Content-Type", "application/json"));
+				}
+				return headers;
+			}
+		}
+		const string SESSION_TOKEN_KEY = "X-LC-Play-Session-Token";
+		internal static void SetAuthentication(string sessionToken)
+		{
+			if (!Headers.ContainsKey(SESSION_TOKEN_KEY))
+			{
+				headers.Add(new KeyValuePair<string, object>(SESSION_TOKEN_KEY, sessionToken));
+			}
+			else
+			{
+				headers[SESSION_TOKEN_KEY] = sessionToken;
+			}
+		}
 
-        private string HttpMethod
-        {
-            get
-            {
-                if (Method != null) return Method;
-                if (Body != null) return "POST";
-                return "GET";
-            }
-        }
+		public string RelativeUrl { get; set; }
+		public IDictionary<string, object> Body { get; set; }
+		public string Method { get; set; }
 
-        private Uri HttpUri
-        {
-            get
-            {
-                var uriBuilder = new UriBuilder(this.GameRouterSchema, this.GameRouterHost);
-                uriBuilder.Path = this.ApiVersion + this.RelativeUrl;
+		public HttpRequest HttpEncode
+		{
+			get
+			{
+				var method = HttpMethod;
+				var headers = Headers;
+				if (method == "GET" || method == "DELETE")
+				{
+					headers = Headers.Filter(new string[] { "Content-Type" });
+				}
+				return new HttpRequest()
+				{
+					Data = Body != null ? new MemoryStream(Encoding.UTF8.GetBytes(Json.Encode(Body))) : null,
+					Headers = headers.ToDictionary(x => x.Key, x => x.Value.ToString()).ToList(),
+					Method = method,
+					Uri = HttpUri
+				};
+			}
+		}
 
-                if (UrlParameters != null)
-                {
-                    if (UrlParameters.Count > 0)
-                    {
-                        uriBuilder.Query = AVClient.BuildQueryString(UrlParameters);
-                    }
-                }
-                return uriBuilder.Uri;
-            }
-        }
+		public IDictionary<string, object> UrlParameters { get; set; }
 
-        public string SokcetEncode
-        {
-            get
-            {
-                this.Body["appId"] = AVClient.CurrentConfiguration.ApplicationId;
-                this.Body["peerId"] = Play.peer.ID;
-                this.Body["i"] = NextCmdId;
+		private string HttpMethod
+		{
+			get
+			{
+				if (Method != null) return Method;
+				if (Body != null) return "POST";
+				return "GET";
+			}
+		}
 
-                return Json.Encode(this.Body);
-            }
-        }
-        internal static readonly object Mutex = new object();
-        private static Int32 lastCmdId = -65536;
-        internal static Int32 NextCmdId
-        {
-            get
-            {
-                lock (Mutex)
-                {
-                    lastCmdId++;
+		private Uri HttpUri
+		{
+			get
+			{
+				var uriBuilder = new UriBuilder(this.GameRouterSchema, this.GameRouterHost);
+				uriBuilder.Path = this.ApiVersion + this.RelativeUrl;
 
-                    if (lastCmdId > ushort.MaxValue)
-                    {
-                        lastCmdId = -65536;
-                    }
-                    return lastCmdId;
-                }
-            }
-        }
-    }
+				if (UrlParameters != null)
+				{
+					if (UrlParameters.Count > 0)
+					{
+						uriBuilder.Query = AVClient.BuildQueryString(UrlParameters);
+					}
+				}
+				return uriBuilder.Uri;
+			}
+		}
 
-    public class PlayResponse
-    {
-        public int StatusCode { get; internal set; }
+		public string SokcetEncode
+		{
+			get
+			{
+				this.Body["appId"] = AVClient.CurrentConfiguration.ApplicationId;
+				this.Body["peerId"] = Play.peer.ID;
+				this.Body["i"] = NextCmdId;
 
-        public IDictionary<string, object> Body { get; set; }
+				return Json.Encode(this.Body);
+			}
+		}
+		internal static readonly object Mutex = new object();
+		private static Int32 lastCmdId = -65536;
+		internal static Int32 NextCmdId
+		{
+			get
+			{
+				lock (Mutex)
+				{
+					lastCmdId++;
 
-        public PlayResponse()
-        {
+					if (lastCmdId > ushort.MaxValue)
+					{
+						lastCmdId = -65536;
+					}
+					return lastCmdId;
+				}
+			}
+		}
+	}
 
-        }
-        public PlayResponse(IDictionary<string, object> sokcetDataPacket)
-        {
-            Body = sokcetDataPacket;
-            StatusCode = 200;
-            if (sokcetDataPacket.ContainsKey("cmd"))
-            {
-                if (sokcetDataPacket["cmd"].ToString() == "error")
-                {
-                    StatusCode = int.Parse(sokcetDataPacket["code"].ToString());
-                }
-            }
-        }
+	public class PlayResponse
+	{
+		public int StatusCode { get; internal set; }
 
-        public bool IsSuccessful
-        {
-            get
-            {
-                return StatusCode > 199 && StatusCode < 202;
-            }
-        }
+		public IDictionary<string, object> Body { get; set; }
 
-        public string ErrorReason
-        {
-            get
-            {
-                return Body.GetValue<string>("reason", null);
-            }
-        }
+		public PlayResponse()
+		{
 
-        public int ErrorCode
-        {
-            get
-            {
-                return Body.GetValue<int>("code", 400);
-            }
-        }
-    }
+		}
+		public PlayResponse(IDictionary<string, object> sokcetDataPacket)
+		{
+			Body = sokcetDataPacket;
+			StatusCode = 200;
+			if (sokcetDataPacket.ContainsKey("cmd"))
+			{
+				if (sokcetDataPacket["cmd"].ToString() == "error")
+				{
+					StatusCode = int.Parse(sokcetDataPacket["code"].ToString());
+				}
+			}
+		}
+
+		public bool IsSuccessful
+		{
+			get
+			{
+				return StatusCode > 199 && StatusCode < 202;
+			}
+		}
+
+		public string ErrorReason
+		{
+			get
+			{
+				return Body.GetValue<string>("reason", null);
+			}
+		}
+
+		public int ErrorCode
+		{
+			get
+			{
+				return Body.GetValue<int>("code", 400);
+			}
+		}
+	}
 }

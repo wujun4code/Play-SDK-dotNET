@@ -58,7 +58,7 @@ namespace LeanCloud
         #endregion
 
         #region rejoin room
-        public virtual void OnRejoinRoomFailed() { }
+		public virtual void OnRejoinRoomFailed(int errorCode, string reason ) { }
         public virtual void OnRejoiningRoom() { }
         public virtual void OnRejoinedRoom() { }
         #endregion
