@@ -287,23 +287,10 @@ namespace LeanCloud
 		/// <summary>
 		/// create a room with config and name.
 		/// </summary>
-		/// <param name="config">config of Room</param>
+		/// <param name="roomConfig">config of Room</param>
 		/// <param name="roomName">name of Room</param>
-		public static void CreateRoom(PlayRoom.RoomConfig config, string roomName = null)
+		public static void CreateRoom(PlayRoom.RoomConfig roomConfig, string roomName = null)
 		{
-			var room = new PlayRoom(config, roomName);
-
-			CreateRoom(room);
-		}
-
-		/// <summary>
-		/// carate room.
-		/// </summary>
-		/// <param name="room">room object</param>
-		public static void CreateRoom(PlayRoom room)
-		{
-			//Play.JoinOrCreateRoom(room);
-
 			var createRoomCommand = new PlayCommand()
 			{
 				Body = new Dictionary<string, object>()
@@ -313,19 +300,40 @@ namespace LeanCloud
 				Method = "POST",
 				RelativeUrl = "/rooms"
 			};
-			if (room.Name != null)
+			if (roomName != null)
 			{
-				createRoomCommand.Body["room_id"] = room.Name;
+				createRoomCommand.Body["room_id"] = roomName;
 			}
 			else
 			{
-				room.Name = PlayRoom.RandomRoomName(24);
-				createRoomCommand.Body["room_id"] = room.Name;
+				roomName = PlayRoom.RandomRoomName(24);
+				createRoomCommand.Body["room_id"] = roomName;
 			}
 
 			RunHttpCommand(createRoomCommand, PlayEventCode.None, (request, response) =>
 			{
-				DoCreateRoom(room, response);
+				// get game server address from game router
+				var roomRemoteSecureAddress = response.Body["secure_addr"] as string;
+				var roomRemoteAddress = response.Body["addr"] as string;
+
+				// open websocket connection with game server
+				DoConnectToGameSever(roomRemoteSecureAddress, () =>
+				{
+					Play.InvokeEvent(PlayEventCode.OnCreatingRoom);
+					// create room at game server
+					peer.SessionCreateRoom(roomName, roomConfig, (room) =>
+					 {
+						 Play.Room = room;
+						 Play.InvokeEvent(PlayEventCode.OnCreatedRoom);
+						 // join room at game server 
+						 peer.SessionRoomJoin(room, (roomm, responsee) =>
+						  {
+							  DoSetRoomProperties(roomm, responsee);
+							  Play.InvokeEvent(PlayEventCode.OnJoinedRoom);
+						  });
+					 });
+				});
+
 			});
 		}
 
@@ -377,40 +385,42 @@ namespace LeanCloud
 		}
 
 		/// <summary>
-		/// Joins the or create room.
+		/// Join or create room.
+		/// </summary>
+		/// <param name="roomName">Room name.</param>
+		public static void JoinOrCreateRoom(string roomName)
+		{
+			JoinOrCreateRoom(roomName, PlayRoom.RoomConfig.Default);
+		}
+		/// <summary>
+		/// Join or create room.
 		/// </summary>
 		/// <param name="roomName">Room name.</param>
 		/// <param name="roomConfig">Room config.</param>
 		public static void JoinOrCreateRoom(string roomName, PlayRoom.RoomConfig roomConfig)
 		{
-			var room = new PlayRoom(roomConfig, roomName);
-			JoinOrCreateRoom(room);
-		}
-
-		/// <summary>
-		/// join or create a Room.
-		/// </summary>
-		/// <param name="room">Room instance</param>
-		public static void JoinOrCreateRoom(PlayRoom room)
-		{
-
-			var joinRoomCommand = new PlayCommand()
+			if (string.IsNullOrEmpty(roomName))
 			{
-				RelativeUrl = "/room/" + room.Name + "/members",
+				LogError("roomName can NOT be null or empty.");
+				return;
+			}
+			var joinOrCreateRoomCommand = new PlayCommand()
+			{
+				RelativeUrl = "/room/" + roomName + "/members",
 				Body = new Dictionary<string, object>()
 				{
 					{ "client_id" , peer.ID },
-					{ "room_id", room.Name },
+					{ "room_id", roomName },
 					{ "create", true },
 				},
 				Method = "POST"
 			};
-			if (room.ExpectedUsers != null)
+			if (roomConfig.ExpectedUsers != null)
 			{
-				joinRoomCommand.Body.Add("expect_members", room.ExpectedUsers.ToArray());
+				joinOrCreateRoomCommand.Body.Add("expect_members", roomConfig.ExpectedUsers.ToArray());
 			}
 
-			RunHttpCommand(joinRoomCommand, PlayEventCode.OnJoinOrCreatingRoom, (req, res) =>
+			RunHttpCommand(joinOrCreateRoomCommand, PlayEventCode.OnJoinOrCreatingRoom, (req, res) =>
 			{
 				if (res.Body.ContainsKey("room"))
 				{
@@ -418,7 +428,7 @@ namespace LeanCloud
 				}
 				else
 				{
-					DoCreateRoom(room, res);
+					CreateRoom(roomConfig, roomName);
 				}
 			});
 		}
@@ -550,24 +560,10 @@ namespace LeanCloud
 			}
 		}
 
-		internal static void DoCreateRoom(PlayRoom room, PlayResponse response)
-		{
-			if (!response.IsSuccessful)
-			{
-				//Play.InvokeEvent(PlayEventCode.OnCreateRoomFailed, response.ErrorCode, response.ErrorReason);
-				return;
-			}
-
-			GetRoomWhenCreate(room, response);
-			ConnectRoom(room, true);
-
-		}
-
 		internal static void DoJoinRoom(PlayCommand request, PlayResponse response)
 		{
 			if (!response.IsSuccessful)
 			{
-				//Play.InvokeEvent(PlayEventCode.OnJoinRoomFailed, response.ErrorCode, response.ErrorReason);
 				return;
 			}
 			var room = GetRoomWhenGet(request, response);
@@ -607,32 +603,14 @@ namespace LeanCloud
 		{
 			lock (roomLock)
 			{
-				Play.Room = room;
-
 				DoConnectToGameSever(room, () =>
 				{
-					if (isNew)
+					peer.SessionRoomJoin(room, (roomm, response) =>
 					{
-						Play.InvokeEvent(PlayEventCode.OnCreatingRoom);
-						peer.SessionCreateRoom(room, (roomm, response) =>
-						 {
-							 Play.InvokeEvent(PlayEventCode.OnCreatedRoom);
-							 peer.SessionRoomJoin(roomm, (roommm, responsee) =>
-							 {
-								 DoSetRoomProperties(roommm, responsee);
-								 Play.InvokeEvent(PlayEventCode.OnJoinedRoom);
-							 });
-						 });
-					}
-					else
-					{
-						peer.SessionRoomJoin(room, (roomm, response) =>
-						{
-							DoSetRoomProperties(roomm, response);
-							Play.InvokeEvent(PlayEventCode.OnJoinedRoom);
-						});
-
-					}
+						DoSetRoomProperties(roomm, response);
+						Play.Room = roomm;
+						Play.InvokeEvent(PlayEventCode.OnJoinedRoom);
+					});
 				});
 			}
 		}
@@ -651,6 +629,25 @@ namespace LeanCloud
 			room.SetProperties(response.Body.Filter(invalidKeys));
 		}
 
+		internal static void DoConnectToGameSever(string serverAddress, Action connected)
+		{
+			if (string.IsNullOrEmpty(serverAddress))
+			{
+				LogError("can NOT connect Room withouth remote addresss");
+				return;
+			}
+			RoomConnection.Open(serverAddress);
+			Action onOpened = null;
+			onOpened = () =>
+			{
+				Log(string.Format("connected with server address:{0}", serverAddress));
+				RoomConnection.OnOpened -= onOpened;
+				RoomConnection.Ping();
+				Play.peer.SessionOpen(connected);
+			};
+			RoomConnection.OnOpened += onOpened;
+		}
+
 		internal static void DoConnectToGameSever(PlayRoom room, Action connected)
 		{
 			if (room.RoomRemoteSecureAddress == null)
@@ -665,10 +662,6 @@ namespace LeanCloud
 				Play.Player.Room = room;
 				Log(string.Format("connected Room(unique id:{0}) at server address:{1}", room.Name, room.RoomRemoteSecureAddress));
 				RoomConnection.OnOpened -= onOpened;
-				//RoomConnection.Reopen = (action) =>
-				//{
-				//    Play.peer.SessionOpen();
-				//};
 				Play.InvokeEvent(PlayEventCode.OnConnected);
 				Play.peer.SessionOpen(connected);
 			};
@@ -1015,8 +1008,9 @@ namespace LeanCloud
 						}
 					}
 				}
-				RoomConnection.OnMessage += onMessage;
 			};
+
+			RoomConnection.OnMessage += onMessage;
 		}
 
 		#endregion
