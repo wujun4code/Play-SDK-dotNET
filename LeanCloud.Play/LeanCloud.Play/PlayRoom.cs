@@ -241,9 +241,22 @@ namespace LeanCloud
             }
             set
             {
-                this.SetProperty<bool>(value, "IsVisible");
+				this.SetProperty<bool>(value, "IsVisible");
+				var cmd = new PlayCommand() {
+					Body = new Dictionary<string, object>()
+					{
+						{ "cmd", "conv"},
+						{ "op", "visible"},
+						{ "toggle", value}
+					}
+				};
+				Play.RunSocketCommand(cmd);
             }
         }
+
+		public void SetVisible(bool visible) {
+			this.SetProperty<bool>(visible, "IsVisible");
+		}
 
         /// <summary>
         /// 
@@ -257,9 +270,22 @@ namespace LeanCloud
             }
             set
             {
-                this.SetProperty<bool>(value, "IsOpen");
+				this.SetProperty<bool>(value, "IsOpen");
+				var cmd = new PlayCommand() {
+					Body = new Dictionary<string, object>()
+					{
+						{ "cmd", "conv"},
+						{ "op", "open"},
+						{ "toggle", value}
+					}
+				};
+				Play.RunSocketCommand(cmd);
             }
         }
+
+		public void SetOpened(bool opened) {
+			this.SetProperty<bool>(opened, "IsOpen");
+		}
 
 
         /// <summary>

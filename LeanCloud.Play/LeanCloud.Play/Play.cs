@@ -37,6 +37,8 @@ namespace LeanCloud
 			Play.SubscribeNoticeReceived(new RoomLeftListener());
 			Play.SubscribeNoticeReceived(new RoomMasterClientSwitchListener());
 			Play.SubscribeNoticeReceived(new PlayerPropertyListener());
+			Play.SubscribeNoticeReceived(new RoomOpenListener());
+			Play.SubscribeNoticeReceived(new RoomVisibleListener());
 			Play.StartListen();
 
 			Play.RegisterSynchronousObjectType<PlayRoom>();

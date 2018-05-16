@@ -90,6 +90,8 @@
     <Compile Include="Unity\EventNotification.Unity.cs" />
     <Compile Include="Unity\HttpExecutor.Unity.cs" />
     <Compile Include="Unity\Logger.Unity.cs" />
+    <Compile Include="Listener\RoomOpenListener.cs" />
+    <Compile Include="Listener\RoomVisibleListener.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
