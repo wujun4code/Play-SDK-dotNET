@@ -109,6 +109,8 @@
     <Compile Include="Portable\Logger.Portable.cs" />
     <Compile Include="Portable\MonoBehaviour.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Listener\RoomOpenListener.cs" />
+    <Compile Include="Listener\RoomVisibleListener.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
