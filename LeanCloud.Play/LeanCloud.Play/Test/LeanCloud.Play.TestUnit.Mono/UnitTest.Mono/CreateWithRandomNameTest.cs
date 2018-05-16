@@ -1,22 +1,17 @@
 ﻿using NUnit.Framework;
 using System;
 using LeanCloud;
-using System.Linq;
 using System.Collections;
+using System.Linq;
 
 namespace UnitTest.Mono
 {
 	[TestFixture()]
-	public class JoinOrCreateTest : TestBase
+	public class CreateWithRandomNameTest : TestBase
 	{
-		public JoinOrCreateTest() : base()
-		{
-
-		}
-
 		[Test()]
 		[Timeout(300000)]
-		public void JoinOrCreate()
+		public void CreateWithRandomName()
 		{
 			Play.UserID = "WuJun";
 			Play.Connect("0.0.1");
@@ -27,7 +22,7 @@ namespace UnitTest.Mono
 		[PlayEvent]
 		public override void OnAuthenticated()
 		{
-			Play.JoinOrCreateRoom(RandomRoomName);
+			Play.CreateRoom();
 		}
 
 		[PlayEvent]

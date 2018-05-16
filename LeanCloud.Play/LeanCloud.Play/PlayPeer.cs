@@ -110,56 +110,57 @@ namespace LeanCloud
 			});
 		}
 
-		internal void SessionCreateRoom(PlayRoom room, Action<PlayRoom, PlayResponse> roomCreated = null)
+		internal void SessionCreateRoom(string roomName, PlayRoom.RoomConfig roomConfig, Action<PlayRoom> roomCreated = null)
 		{
 			IDictionary<string, object> body = new Dictionary<string, object>();
-			if (room.Config.CustomRoomProperties != null)
+			if (roomConfig.CustomRoomProperties != null)
 			{
-				body.Add("attr", room.Config.CustomRoomProperties.ToDictionary());
+				body.Add("attr", roomConfig.CustomRoomProperties.ToDictionary());
 			}
-			if (room.MaxPlayerCount > 0 && room.MaxPlayerCount != PlayRoom.DefaultMaxPlayerCount)
+			if (roomConfig.MaxPlayerCount > 0 && roomConfig.MaxPlayerCount != PlayRoom.DefaultMaxPlayerCount)
 			{
-				body.Add("maxMembers", room.MaxPlayerCount);
+				body.Add("maxMembers", roomConfig.MaxPlayerCount);
 			}
-			if (room.EmptyTimeToLive > 0 && room.EmptyTimeToLive != PlayRoom.DefaultMaxEmptyTimeToLive)
+			if (roomConfig.EmptyTimeToLive > 0 && roomConfig.EmptyTimeToLive != PlayRoom.DefaultMaxEmptyTimeToLive)
 			{
-				body.Add("emptyRoomTtl", room.EmptyTimeToLive);
+				body.Add("emptyRoomTtl", roomConfig.EmptyTimeToLive);
 			}
-			if (room.PlayerTimeToKeep > 0 && room.PlayerTimeToKeep != PlayRoom.DefaultMaxKeepPlayerTime)
+			if (roomConfig.PlayerTimeToKeep > 0 && roomConfig.PlayerTimeToKeep != PlayRoom.DefaultMaxKeepPlayerTime)
 			{
-				body.Add("playerTtl", room.PlayerTimeToKeep);
+				body.Add("playerTtl", roomConfig.PlayerTimeToKeep);
 			}
-			if (room.ExpectedUsers != null)
+			if (roomConfig.ExpectedUsers != null)
 			{
-				body.Add("expectMembers", room.ExpectedUsers);
+				body.Add("expectMembers", roomConfig.ExpectedUsers);
 			}
-			if (!room.IsVisible)
+			if (!roomConfig.IsVisible)
 			{
-				body.Add("visible", room.IsVisible);
+				body.Add("visible", roomConfig.IsVisible);
 			}
-			if (!room.IsOpen)
+			if (!roomConfig.IsOpen)
 			{
-				body.Add("open", room.IsVisible);
+				body.Add("open", roomConfig.IsOpen);
 			}
-			if (room.LobbyMatchKeys != null)
+			if (roomConfig.LobbyMatchKeys != null)
 			{
-				body.Add("lobbyAttrKeys", room.LobbyMatchKeys);
+				body.Add("lobbyAttrKeys", roomConfig.LobbyMatchKeys);
 			}
 			body.Add("cmd", "conv");
 			body.Add("op", "start");
-			body.Add("cid", room.Name);
+			body.Add("cid", roomName);
 			var createCommand = new PlayCommand()
 			{
 				Body = body
 			};
+
 			Play.RunSocketCommand(createCommand, done: (req, response) =>
 			{
 				if (response.IsSuccessful)
 				{
-					room.MergeFromServer(response.Body);
+					var room = new PlayRoom(roomConfig, roomName);
 					if (roomCreated != null)
 					{
-						roomCreated(room, response);
+						roomCreated(room);
 					}
 				}
 				else

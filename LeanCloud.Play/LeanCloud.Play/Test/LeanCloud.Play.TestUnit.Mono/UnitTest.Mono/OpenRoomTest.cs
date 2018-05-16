@@ -13,7 +13,7 @@ namespace UnitTest.Mono {
 
 		[Test()]
 		[Timeout(300000)]
-		public void JoinOrCreate ()
+		public void OpenTest ()
 		{
 			Play.UserID = "xxx";
 			Play.Connect("0.0.1");
@@ -26,7 +26,8 @@ namespace UnitTest.Mono {
 		{
 			Play.Log("OnAuthenticated");
 			var conf = new PlayRoom.RoomConfig() {
-				IsOpen = false
+				IsOpen = false,
+				IsVisible = false,
 			};
 			Play.CreateRoom(conf, "123");
 		}
@@ -49,8 +50,9 @@ namespace UnitTest.Mono {
 		public override void OnJoinedRoom ()
 		{
 			Play.Log("OnJoinedRoom");
-			bool open = (bool)Play.Player.CustomProperties ["IsOpen"];
-			Play.Log("IsOpen: " + open);
+			Play.Log("IsOpen: " + Play.Room.IsOpen + ", " + Play.Room.IsVisible);
+			Play.Room.IsOpen = false;
+			Play.Room.IsVisible = true;
 		}
 
 		[PlayEvent]
