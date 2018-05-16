@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace LeanCloud
 {
@@ -20,6 +21,12 @@ namespace LeanCloud
 
 		public Queue<string> received;
 
+		// 心跳
+		private const double KEEP_ALIVE_RATE = 1000;
+		private const double KEEP_ALIVE_DURATION = 10000;
+		private System.Timers.Timer keepAliveTimer = null;
+		private double keepAliveDuration = 0;
+
 		public bool IsOpen
 		{
 			get
@@ -30,6 +37,7 @@ namespace LeanCloud
 
 		public void Ping()
 		{
+			Play.Log("ping");
 			this.WebSocketClient.Send("{}");
 		}
 
@@ -110,6 +118,14 @@ namespace LeanCloud
 			this.Url = url;
 			this.Protocol = protocol;
 			this.WebSocketClient.OnClosed += WebSocketClient_OnClosed;
+			// 开启心跳
+			if (keepAliveTimer != null) {
+				keepAliveTimer.Stop();
+				keepAliveTimer = null;
+			}
+			keepAliveTimer = new System.Timers.Timer(KEEP_ALIVE_RATE);
+			keepAliveTimer.Elapsed += KeepAlive_Elapsed;
+			keepAliveTimer.Start();
 		}
 
 		private void WebSocketClient_OnClosed(int arg1, string arg2, string arg3)
@@ -121,6 +137,8 @@ namespace LeanCloud
 					Reopen(() => { });
 				}
 			}
+			keepAliveTimer.Stop();
+			keepAliveTimer = null;
 		}
 
 		public void Send(string message)
@@ -128,6 +146,8 @@ namespace LeanCloud
 			try
 			{
 				WebSocketClient.Send(message);
+				// 重置心跳时间
+				keepAliveDuration = KEEP_ALIVE_DURATION;
 			}
 			catch
 			{
@@ -151,6 +171,15 @@ namespace LeanCloud
 				});
 			};
 			WebSocketClient.OnOpened += onOpened;
+		}
+
+		private void KeepAlive_Elapsed (System.Object sender, ElapsedEventArgs args)
+		{
+			keepAliveDuration -= 1000;
+			if (keepAliveDuration < 0) {
+				Ping();
+				keepAliveDuration = KEEP_ALIVE_DURATION;
+			}
 		}
 	}
 }
