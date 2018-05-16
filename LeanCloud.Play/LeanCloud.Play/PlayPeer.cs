@@ -139,7 +139,7 @@ namespace LeanCloud
 			}
 			if (!roomConfig.IsOpen)
 			{
-				body.Add("open", roomConfig.IsVisible);
+				body.Add("open", roomConfig.IsOpen);
 			}
 			if (roomConfig.LobbyMatchKeys != null)
 			{
