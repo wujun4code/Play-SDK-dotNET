@@ -98,7 +98,7 @@ namespace LeanCloud
 				{
 					{ "cmd", "conv" },
 					{ "op", "add" },
-					{ "cid", Play.Room.Name },
+					{ "cid", room.Name },
 				}
 			};
 			Play.RunSocketCommand(joinCommand, done: (req, response) =>
@@ -158,6 +158,7 @@ namespace LeanCloud
 				if (response.IsSuccessful)
 				{
 					var room = new PlayRoom(roomConfig, roomName);
+					Play.DoSetRoomProperties(room, response);
 					if (roomCreated != null)
 					{
 						roomCreated(room);

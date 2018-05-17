@@ -127,10 +127,16 @@ namespace LeanCloud
 			{
 				this.Body["appId"] = AVClient.CurrentConfiguration.ApplicationId;
 				this.Body["peerId"] = Play.peer.ID;
-				this.Body["i"] = NextCmdId;
+				SocketCommandId = NextCmdId;
+				this.Body["i"] = SocketCommandId;
 
 				return Json.Encode(this.Body);
 			}
+		}
+
+		internal int SocketCommandId
+		{
+			get; set;
 		}
 		internal static readonly object Mutex = new object();
 		private static Int32 lastCmdId = -65536;

@@ -77,8 +77,7 @@ namespace LeanCloud
                     }
                 }
 
-            }
-
+            }         
         }
 
 #if UNITY

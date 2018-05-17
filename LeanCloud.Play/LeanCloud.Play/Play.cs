@@ -325,15 +325,9 @@ namespace LeanCloud
 					 {
 						 Play.Room = room;
 						 Play.InvokeEvent(PlayEventCode.OnCreatedRoom);
-						 // join room at game server 
-						 peer.SessionRoomJoin(room, (roomm, responsee) =>
-						  {
-							  DoSetRoomProperties(roomm, responsee);
-							  Play.InvokeEvent(PlayEventCode.OnJoinedRoom);
-						  });
+						 Play.InvokeEvent(PlayEventCode.OnJoinedRoom);
 					 });
 				});
-
 			});
 		}
 
@@ -368,7 +362,7 @@ namespace LeanCloud
 		{
 			if (string.IsNullOrEmpty(roomName))
 			{
-				Play.InvokeEvent(PlayEventCode.OnJoinRoomFailed);
+				Play.InvokeEvent(PlayEventCode.OnJoinRoomFailed, "-100", "can NOT join a room with the name is NULL.");
 				return;
 			}
 			var joinRoomCommand = new PlayCommand()
@@ -642,7 +636,6 @@ namespace LeanCloud
 			{
 				Log(string.Format("connected with server address:{0}", serverAddress));
 				RoomConnection.OnOpened -= onOpened;
-				RoomConnection.Ping();
 				Play.peer.SessionOpen(connected);
 			};
 			RoomConnection.OnOpened += onOpened;
@@ -662,11 +655,9 @@ namespace LeanCloud
 				Play.Player.Room = room;
 				Log(string.Format("connected Room(unique id:{0}) at server address:{1}", room.Name, room.RoomRemoteSecureAddress));
 				RoomConnection.OnOpened -= onOpened;
-				Play.InvokeEvent(PlayEventCode.OnConnected);
 				Play.peer.SessionOpen(connected);
 			};
 			RoomConnection.OnOpened += onOpened;
-			Play.InvokeEvent(PlayEventCode.OnConnecting);
 		}
 
 		private static void RoomConnection_OnClosed(int arg1, string arg2, string arg3)
@@ -686,10 +677,9 @@ namespace LeanCloud
 			try
 			{
 				var metaNoticeFromServer = Json.Parse(obj) as IDictionary<string, object>;
-				if (!metaNoticeFromServer.ContainsKey("i"))
-				{
-					Log("sokcet notice<=" + obj);
-				}
+
+				Log("sokcet<=" + obj);
+
 				var validator = AVIMNotice.IsValidLeanCloudProtocol(metaNoticeFromServer);
 
 				if (validator)
@@ -868,6 +858,7 @@ namespace LeanCloud
 				}
 			});
 		}
+		internal static object lisentersMutex = new Object();
 		internal static IList<IAVIMListener> lisenters = new List<IAVIMListener>();
 		internal static void SubscribeNoticeReceived(IAVIMListener listener, Func<AVIMNotice, bool> runtimeHook = null)
 		{
@@ -878,8 +869,20 @@ namespace LeanCloud
 			//    {
 			//        listener.OnNoticeReceived(notice);
 			//    }
-			//}); 
-			lisenters.Add(listener);
+			//});
+			lock (lisentersMutex)
+			{
+				lisenters.Add(listener);
+			}
+
+		}
+
+		internal static void UnsubscribeNoticeReceived(IAVIMListener listener)
+		{
+			lock (lisentersMutex)
+			{
+				lisenters.Remove(listener);
+			}
 		}
 
 
@@ -973,44 +976,56 @@ namespace LeanCloud
 		internal static void RunSocketCommand(PlayCommand command, PlayEventCode eventCode = PlayEventCode.None, Action<PlayCommand, PlayResponse> done = null)
 		{
 			var encoded = command.SokcetEncode;
+			Play.Log("socket=>" + encoded);
 			Play.RoomConnection.Send(encoded);
-			Action<string> onMessage = null;
-			LogCommand(command, null, CommandType.WebSocket);
-			onMessage = (messgae) =>
-			{
-				var messageJson = Json.Parse(messgae) as IDictionary<string, object>;
-				if (messageJson.Keys.Contains("i"))
-				{
-					if (command.Body["i"].ToString() == messageJson["i"].ToString())
-					{
-						RoomConnection.OnMessage -= onMessage;
-						var response = new PlayResponse(messageJson);
-						LogCommand(null, response, CommandType.WebSocket);
-						if (response.IsSuccessful)
-						{
-							if (done != null)
-							{
-								done(command, response);
-							}
-						}
 
-						if (eventCode != PlayEventCode.None)
-						{
-							var next = PlayStateMachine.Next(eventCode, response);
-							if (response.IsSuccessful)
-							{
-								Play.InvokeEvent(next);
-							}
-							else
-							{
-								Play.InvokeEvent(next, response.ErrorCode, response.ErrorReason);
-							}
-						}
-					}
-				}
+			var repsonseListener = new SocketResponseListener()
+			{
+				Command = command,
+				Done = done,
+				EventCode = eventCode
 			};
 
-			RoomConnection.OnMessage += onMessage;
+			Play.SubscribeNoticeReceived(repsonseListener);
+
+			//Action<string> onMessage = null;
+
+			//LogCommand(command, null, CommandType.WebSocket);
+			//onMessage = (messgae) =>
+			//{
+			//	var messageJson = Json.Parse(messgae) as IDictionary<string, object>;
+			//	if (messageJson.Keys.Contains("i"))
+			//	{
+			//		if (command.Body["i"].ToString() == messageJson["i"].ToString())
+			//		{
+			//			RoomConnection.OnMessage -= onMessage;
+			//			var response = new PlayResponse(messageJson);
+			//			LogCommand(null, response, CommandType.WebSocket);
+			//			if (response.IsSuccessful)
+			//			{
+			//				if (done != null)
+			//				{
+			//					done(command, response);
+			//				}
+			//			}
+
+			//			if (eventCode != PlayEventCode.None)
+			//			{
+			//				var next = PlayStateMachine.Next(eventCode, response);
+			//				if (response.IsSuccessful)
+			//				{
+			//					Play.InvokeEvent(next);
+			//				}
+			//				else
+			//				{
+			//					Play.InvokeEvent(next, response.ErrorCode, response.ErrorReason);
+			//				}
+			//			}
+			//		}
+			//	}
+			//};
+
+			//RoomConnection.OnMessage += onMessage;
 		}
 
 		#endregion
