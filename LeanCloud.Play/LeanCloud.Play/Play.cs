@@ -858,7 +858,7 @@ namespace LeanCloud
 				}
 			});
 		}
-		internal static object lisentersMutex = new Object();
+		internal static object lisentersMutex = new object();
 		internal static IList<IAVIMListener> lisenters = new List<IAVIMListener>();
 		internal static void SubscribeNoticeReceived(IAVIMListener listener, Func<AVIMNotice, bool> runtimeHook = null)
 		{
