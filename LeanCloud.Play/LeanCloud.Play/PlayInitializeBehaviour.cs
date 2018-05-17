@@ -93,6 +93,11 @@ namespace LeanCloud
             //}
             base.Awake();
         }
+
+		private void OnApplicationQuit ()
+		{
+			Play.CloseConnect();
+		}
 #endif
-    }
+	}
 }

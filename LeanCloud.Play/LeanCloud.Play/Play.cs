@@ -1214,5 +1214,11 @@ namespace LeanCloud
 		{
 			PlayCorePlugins.Instance.SynchronousObjectSubclassController.RegisterSubclass(typeof(T));
 		}
+
+		// 关闭 WebSocket 连接
+		public static void CloseConnect() {
+			if (RoomConnection != null)
+				RoomConnection.Close();
+		}
 	}
 }
