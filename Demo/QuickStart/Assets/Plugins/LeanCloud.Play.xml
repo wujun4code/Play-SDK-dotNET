@@ -1,0 +1,569 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LeanCloud.Play</name>
+    </assembly>
+    <members>
+        <member name="T:LeanCloud.Play">
+            <summary>
+            LeanCloud Play core class.
+            </summary>
+        </member>
+        <member name="M:LeanCloud.Play.InvokeEvent(LeanCloud.PlayEventCode,System.Object[])">
+            <summary>
+            
+            </summary>
+            <param name="eventCode"></param>
+            <param name="parameters"></param>
+        </member>
+        <member name="P:LeanCloud.Play.Room">
+            <summary>
+            current Room.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.Play.Players">
+            <summary>
+            players in current Room.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.Play.Player">
+            <summary>
+            current Player
+            </summary>
+        </member>
+        <member name="P:LeanCloud.Play.Friends">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:LeanCloud.Play.PlayVersion">
+            <summary>
+            game version.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.Play.GameVersion">
+            <summary>
+            clients with the same game version can play toghter.
+            </summary>
+        </member>
+        <member name="M:LeanCloud.Play.Connect(System.String)">
+            <summary>
+            connect with 
+            </summary>
+            <param name="gameVersion"></param>
+        </member>
+        <member name="P:LeanCloud.Play.UserID">
+            <summary>
+            user id.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.Play.PeerState">
+            <summary>
+            state of current peer.
+            </summary>
+        </member>
+        <member name="M:LeanCloud.Play.CreateRoom(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates the room.
+            </summary>
+            <param name="roomName">Room name.</param>
+            <param name="expectedUsers">Expected users.</param>
+        </member>
+        <member name="M:LeanCloud.Play.CreateRoom(LeanCloud.PlayRoom.RoomConfig,System.String)">
+            <summary>
+            create a room with config and name.
+            </summary>
+            <param name="roomConfig">config of Room</param>
+            <param name="roomName">name of Room</param>
+        </member>
+        <member name="M:LeanCloud.Play.JoinRandomRoom(System.Collections.Hashtable)">
+            <summary>
+            join a random Room.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeanCloud.Play.JoinRoom(System.String)">
+            <summary>
+            join a Room by name.
+            </summary>
+            <param name="roomName">unique id for the Room to join in.</param>
+            <returns></returns>
+        </member>
+        <member name="M:LeanCloud.Play.JoinOrCreateRoom(System.String)">
+            <summary>
+            Join or create room.
+            </summary>
+            <param name="roomName">Room name.</param>
+        </member>
+        <member name="M:LeanCloud.Play.JoinOrCreateRoom(System.String,LeanCloud.PlayRoom.RoomConfig)">
+            <summary>
+            Join or create room.
+            </summary>
+            <param name="roomName">Room name.</param>
+            <param name="roomConfig">Room config.</param>
+        </member>
+        <member name="M:LeanCloud.Play.RejoinRoom(System.String)">
+            <summary>
+            Rejoins the room.
+            </summary>
+            <param name="roomName">Room name.</param>
+        </member>
+        <member name="M:LeanCloud.Play.FetchRoomList(System.Int32,System.Boolean)">
+            <summary>
+            fetch rooms from server.
+            </summary>
+            <param name="limit">count for fetch</param>
+            <param name="reset">reset room list indexer</param>
+        </member>
+        <member name="M:LeanCloud.Play.SetMasterClient(LeanCloud.Player)">
+            <summary>
+            player
+            </summary>
+            <param name="player"></param>
+        </member>
+        <member name="M:LeanCloud.Play.FindFriends(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            find friends.
+            </summary>
+        </member>
+        <member name="M:LeanCloud.Play.LeaveRoom">
+            <summary>
+            leave current game Room.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LeanCloud.Play.ToggleLog(System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="toggle"></param>
+        </member>
+        <member name="M:LeanCloud.Play.Log(System.Object[])">
+            <summary>
+            print logs to console.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:LeanCloud.Play.LogError(System.Object[])">
+            <summary>
+            log error to console.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:LeanCloud.Play.RegisterBehaviour(LeanCloud.PlayMonoBehaviour)">
+            <summary>
+            register message noticitication.
+            </summary>
+            <param name="behaviour">PlayMonoBehaviour instance</param>
+        </member>
+        <member name="M:LeanCloud.Play.RPC(System.String,LeanCloud.PlayRPCTargets,System.Object[])">
+            <summary>
+            invoke a remote precedure call.
+            </summary>
+            <param name="rpcMethodName">method name</param>
+            <param name="targets"> <see cref="T:LeanCloud.PlayRPCTargets"/>.</param>
+            <param name="rpcParameters"></param>
+        </member>
+        <member name="M:LeanCloud.Play.RPC(System.String,System.Collections.Generic.IEnumerable{System.String},System.Object[])">
+            <summary>
+            call
+            </summary>
+            <param name="rpcMethodName"></param>
+            <param name="userIds"></param>
+            <param name="rpcParameters"></param>
+        </member>
+        <member name="M:LeanCloud.Play.RegisterSynchronousObjectType``1">
+            <summary>
+            register subclass of PlaySynchronousObject
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:LeanCloud.PlayRPCAttribute">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlaySynchronizeObjectNameAttribute">
+            <summary>
+            Defines the class name for a subclass of AVObject.
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlaySynchronizeObjectNameAttribute.#ctor(System.String)">
+            <summary>
+            Constructs a new ParseClassName attribute.
+            </summary>
+            <param name="className">The class name to associate with the AVObject subclass.</param>
+        </member>
+        <member name="P:LeanCloud.PlaySynchronizeObjectNameAttribute.ClassName">
+            <summary>
+            Gets the class name to associate with the AVObject subclass.
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlaySynchronizePropertyAttribute">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlayEventAttribute">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlayCommand">
+            <summary>
+            an action from Player will be packed as a command sent to LeanCloud Game server.
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlayCommand.#ctor">
+            <summary>
+            play command
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlayConnection">
+            <summary>
+            websocket client decorator
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayCorePlugins.SynchronousObjectSubclassController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlayMainThreadQueue">
+            <summary>
+            a thread safe delegate queue.
+            </summary>
+        </member>
+        <member name="F:LeanCloud.PlayRPCTargets.All">
+            <summary>
+            all via server
+            </summary>
+        </member>
+        <member name="F:LeanCloud.PlayRPCTargets.Others">
+            <summary>
+            others via server
+            </summary>
+        </member>
+        <member name="F:LeanCloud.PlayRPCTargets.MasterClient">
+            <summary>
+            if current player is master client, will receive from server
+            </summary>
+        </member>
+        <member name="F:LeanCloud.PlayRPCTargets.AllBuffered">
+            <summary>
+            all via server and will cached it.
+            </summary>
+        </member>
+        <member name="F:LeanCloud.PlayRPCTargets.OthersBuffered">
+            <summary>
+            others via server and will cached it.
+            </summary>
+        </member>
+        <member name="T:LeanCloud.Player">
+            <summary>
+            Player
+            </summary>
+        </member>
+        <member name="M:LeanCloud.Player.#ctor">
+            <summary>
+            new a player instance
+            </summary>
+        </member>
+        <member name="P:LeanCloud.Player.ActorID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:LeanCloud.Player.UserID">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:LeanCloud.Player.RoomName">
+            <summary>
+            name of the room that contains current player.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.Player.IsMasterClient">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:LeanCloud.Player.IsLocal">
+            <summary>
+            judge the player is current player or not.
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlayLobby">
+            <summary>
+            Lobby in Play.
+            </summary>
+        </member>
+        <member name="F:LeanCloud.PlayLobby.RoomsInLobby">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlayLobby.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlayLobby.FetchRoom(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="limit"></param>
+        </member>
+        <member name="M:LeanCloud.PlayLobby.ResetEnumerators">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlayLobby.AddRooms(System.Collections.Generic.IEnumerable{LeanCloud.PlayRoom})">
+            <summary>
+            
+            </summary>
+            <param name="rooms"></param>
+        </member>
+        <member name="T:LeanCloud.PlayEventMessage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlayInitializeBehaviour">
+            <summary>
+            PlayInitializeBehaviour
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlayInitializeBehaviour.Update">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlayInitializeBehaviour.Awake">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlayMonoBehaviour">
+            <summary>
+            PlayMonoBehaviour
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlayMonoBehaviour.#ctor">
+            <summary>
+            create a instance of PlayMonoBehaviour
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlayPeer.PlayPeerState">
+            <summary>
+            peer state
+            </summary>
+        </member>
+        <member name="F:LeanCloud.PlayPeer.PlayPeerState.Aviable">
+            <summary>
+            in lobby
+            </summary>
+        </member>
+        <member name="F:LeanCloud.PlayPeer.PlayPeerState.SearchingRoom">
+            <summary>
+            searching Room
+            </summary>
+        </member>
+        <member name="F:LeanCloud.PlayPeer.PlayPeerState.InRoom">
+            <summary>
+            in a Room
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayPeer.PeerState">
+            <summary>
+            peer state
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlayPeer.Authenticate">
+            <summary>
+            current peer authenticate
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:LeanCloud.PlayPeer.ID">
+            <summary>
+            user id.
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlayRoom">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlayRoom.RoomConfig">
+            <summary>
+            room config before create it.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.RoomConfig.CustomRoomProperties">
+            <summary>
+            set a custom properties for room before create it.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.RoomConfig.LobbyMatchKeys">
+            <summary>
+            the keys in CustomProperties to match a room in lobby.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.RoomConfig.ExpectedUsers">
+            <summary>
+            expected user userId(s)
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.RoomConfig.MaxPlayerCount">
+            <summary>
+            max player count in a Room
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.RoomConfig.IsVisible">
+            <summary>
+            visible in lobby
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.RoomConfig.IsOpen">
+            <summary>
+            open to join and find
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.RoomConfig.EmptyTimeToLive">
+            <summary>
+            empty time to live for the Room in seconds. max value is 1800(seconds).
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.RoomConfig.PlayerTimeToKeep">
+            <summary>
+            time to keep a player when disconnect from room. max value is 60(seconds).
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.RoomConfig.Default">
+            <summary>
+            deafult config
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.Config">
+            <summary>
+            room config
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.RoomRemoteSecureAddress">
+            <summary>
+            room remote game server address with security.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.RoomRemoteAddress">
+            <summary>
+            room remote game server.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.ExpectedUsers">
+            <summary>
+            expected user userId
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.LobbyMatchKeys">
+            <summary>
+            the keys in CustomProperties to match a room in lobby.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.MasterClientId">
+            <summary>
+            current master user userId.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.Players">
+            <summary>
+            players in Room.
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlayRoom.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlayRoom.#ctor(System.String)">
+            <summary>
+            PlayRoom
+            </summary>
+            <param name="name">room name</param>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.MaxPlayerCount">
+            <summary>
+            max player count in a Room
+            </summary>
+        </member>
+        <member name="F:LeanCloud.PlayRoom.DefaultMaxPlayerCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:LeanCloud.PlayRoom.DefaultMaxEmptyTimeToLive">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:LeanCloud.PlayRoom.DefaultMaxKeepPlayerTime">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.Name">
+            <summary>
+            global unqiue userId of Room.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.IsVisible">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.IsOpen">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlayRoom.SetCustomProperties(System.Collections.Hashtable,System.Collections.Hashtable)">
+            <summary>
+            
+            </summary>
+            <param name="propertiesToUpdateOrSet"></param>
+            <param name="expectedValues"></param>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.EmptyTimeToLive">
+            <summary>
+            empty time to live for the Room in seconds. max value is 1800(seconds).
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlayRoom.PlayerTimeToKeep">
+            <summary>
+            time to keep a player when disconnect from room. max value is 60(seconds).
+            </summary>
+        </member>
+        <member name="T:LeanCloud.PlaySynchronousObject">
+            <summary>
+            synchronous object in Play.
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlaySynchronousObject.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LeanCloud.PlaySynchronousObject.Save">
+            <summary>
+            call this method to notify players in the Room when properties updated.
+            </summary>
+        </member>
+        <member name="P:LeanCloud.PlaySynchronousObject.CustomProperties">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>
