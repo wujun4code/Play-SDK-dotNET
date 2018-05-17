@@ -298,7 +298,7 @@ namespace LeanCloud
 
 		public void SetOpened(bool opened)
 		{
-			this.SetProperty<bool>(opened, "IsOpen");         
+			this.SetProperty<bool>(opened, "IsOpen");
 		}
 
 
@@ -402,10 +402,17 @@ namespace LeanCloud
 		{
 			lock (metaDataMutex)
 			{
-				this.objectState.AddToList("m", player.UserID);
-				this.objectState.AddToList("memberIds", player.ActorID);
-				player.Room = this;
-				playerMap.Add(new KeyValuePair<string, Player>(player.UserID, player));
+				if (!playerMap.ContainsKey(player.UserID))
+				{
+					this.objectState.AddToList("m", player.UserID);
+					this.objectState.AddToList("memberIds", player.ActorID);
+					player.Room = this;
+					playerMap.Add(new KeyValuePair<string, Player>(player.UserID, player));
+				}
+				else
+				{
+					// merge player properties.
+				}
 			}
 		}
 

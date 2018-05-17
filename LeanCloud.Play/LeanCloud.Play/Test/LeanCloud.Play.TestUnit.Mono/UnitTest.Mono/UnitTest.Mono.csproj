@@ -67,6 +67,8 @@
     <Compile Include="TestBase.cs" />
     <Compile Include="OpenRoomTest.cs" />
     <Compile Include="CreateWithRandomNameTest.cs" />
+    <Compile Include="JoinTest.cs" />
+    <Compile Include="CreateTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

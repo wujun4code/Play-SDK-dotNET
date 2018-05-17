@@ -98,6 +98,7 @@
     <Compile Include="Unity\Logger.Unity.cs" />
     <Compile Include="Listener\RoomOpenListener.cs" />
     <Compile Include="Listener\RoomVisibleListener.cs" />
+    <Compile Include="Listener\SocketResponseListener.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
