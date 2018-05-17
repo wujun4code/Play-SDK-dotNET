@@ -17,7 +17,8 @@ namespace LeanCloud
         {
             var newPlayer = this.NewPlayer(notice);
             Play.Room.AddPlayer(newPlayer);
-            Play.NewPlayerJoined(newPlayer);
+			if(newPlayer.UserID != Play.Player.UserID)
+            	Play.NewPlayerJoined(newPlayer);
             base.OnNoticeReceived(notice);
         }
     }
