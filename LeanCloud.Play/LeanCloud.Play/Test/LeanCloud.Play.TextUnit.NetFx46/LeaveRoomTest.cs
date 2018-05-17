@@ -28,7 +28,7 @@ namespace TestUnit.NetFx46
         [PlayEvent]
         public override void OnAuthenticated()
         {
-            var roomConfig = new PlayRoom.PlayRoomConfig()
+            var roomConfig = new PlayRoom.RoomConfig()
             {
                 CustomRoomProperties = new Hashtable
                 {
