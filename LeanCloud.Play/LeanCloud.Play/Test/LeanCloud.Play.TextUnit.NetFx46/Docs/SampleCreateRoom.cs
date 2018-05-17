@@ -36,7 +36,7 @@ namespace TestUnit.NetFx46.Docs
 
 			Play.CreateRoom(expectedUsers: new string[] { "bill", "steve" });
 
-            var roomConfig = new PlayRoom.PlayRoomConfig()
+            var roomConfig = new PlayRoom.RoomConfig()
             {
                 IsVisible = false,
                 IsOpen = false
