@@ -9,6 +9,7 @@ public class Game : PlayMonoBehaviour {
 
 	void Start ()
 	{
+		Play.ToggleLog();
 		// 随机生成一个用户 ID
 		string userId = Random.Range(0, int.MaxValue).ToString();
 		Debug.Log("userId: " + userId);
