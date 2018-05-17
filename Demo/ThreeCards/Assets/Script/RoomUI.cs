@@ -20,7 +20,7 @@ public class RoomUI : PlayMonoBehaviour {
 
         Debug.Log("creating room...");
         GlobalUI.Instantce.ShowLoading();
-        var roomConfig = PlayRoom.PlayRoomConfig.Default;
+		var roomConfig = PlayRoom.RoomConfig.Default;
         roomConfig.MaxPlayerCount = 4;
         Play.CreateRoom(roomConfig, roomId);
 	}

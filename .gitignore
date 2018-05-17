@@ -288,3 +288,4 @@ __pycache__/
 *.xsd.cs
 PlayDemo/Temp
 Demo/QuickStart/Temp
+Demo/ThreeCards/Temp
