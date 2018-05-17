@@ -109,7 +109,12 @@ namespace LeanCloud
 
 		public void Close()
 		{
-			WebSocketClient.Close();
+			if (WebSocketClient != null && WebSocketClient.IsOpen)
+				WebSocketClient.Close();
+			if (keepAliveTimer != null) {
+				keepAliveTimer.Stop();
+				keepAliveTimer = null;
+			}
 		}
 
 		public void Open(string url, string protocol = null)
