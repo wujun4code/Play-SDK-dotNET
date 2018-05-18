@@ -131,6 +131,7 @@ namespace LeanCloud
 			return new PlayConnection(new DefaultWebSocketClient());
 		}
 
+		internal static PlayGameServer GameServer;
 		internal static PlayPeer peer;
 		internal static PlayLobby lobby;
 		internal static List<PlayFriend> friends;
@@ -232,12 +233,19 @@ namespace LeanCloud
 
 		#endregion
 
-		#region public methods
+		#region public methods      
+		public enum ServerType
+		{
+			Router = 0,
+			Game = 1,
+		}
+
 		/// <summary>
-		/// connect with 
+		/// Connect the specified gameVersion and serverType.
 		/// </summary>
-		/// <param name="gameVersion"></param>
-		public static void Connect(string gameVersion)
+		/// <param name="gameVersion">Game version.</param>
+		/// <param name="serverType">Server type.</param>
+		public static void Connect(string gameVersion, ServerType serverType = ServerType.Router)
 		{
 			GameVersion = gameVersion;
 
@@ -245,7 +253,15 @@ namespace LeanCloud
 			RoomConnection.OnClosed += RoomConnection_OnClosed;
 			RoomConnection.OnMessage += RoomConnection_OnMessage;
 
-			peer.Authenticate();
+			if (serverType == ServerType.Router)
+			{
+				peer.AuthenticateFromRouterServer();
+			}
+			else if (serverType == ServerType.Game)
+			{
+				peer.AuthenticateFromGameServer();
+			}
+
 		}
 
 		/// <summary>
@@ -623,6 +639,28 @@ namespace LeanCloud
 			room.SetProperties(response.Body.Filter(invalidKeys));
 		}
 
+		internal static void DoConnectToGameSever(PlayGameServer server, Action connected)
+		{
+			if (string.IsNullOrEmpty(server.Url))
+			{
+				LogError("can NOT connect Room withouth remote addresss");
+				return;
+			}
+			RoomConnection.Open(server.Url);
+			Log(string.Format("try to connect with server address:{0}", server.Url));
+			Action onOpened = null;
+			onOpened = () =>
+			{
+				Log(string.Format("connected with server address:{0}", server.Url));
+				RoomConnection.OnOpened -= onOpened;
+				if (connected != null)
+				{
+					connected();
+				}
+			};
+			RoomConnection.OnOpened += onOpened;
+		}
+
 		internal static void DoConnectToGameSever(string serverAddress, Action connected)
 		{
 			if (string.IsNullOrEmpty(serverAddress))
@@ -631,6 +669,7 @@ namespace LeanCloud
 				return;
 			}
 			RoomConnection.Open(serverAddress);
+			Log(string.Format("try to connect with server address:{0}", serverAddress));
 			Action onOpened = null;
 			onOpened = () =>
 			{
@@ -641,7 +680,7 @@ namespace LeanCloud
 			RoomConnection.OnOpened += onOpened;
 		}
 
-		internal static void DoConnectToGameSever(PlayRoom room, Action connected)
+		internal static void DoConnectToGameSever(PlayRoom room, Action connected = null)
 		{
 			if (room.RoomRemoteSecureAddress == null)
 			{
@@ -1231,7 +1270,8 @@ namespace LeanCloud
 		}
 
 		// 关闭 WebSocket 连接
-		public static void CloseConnect() {
+		public static void CloseConnect()
+		{
 			if (RoomConnection != null)
 				RoomConnection.Close();
 		}

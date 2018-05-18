@@ -69,6 +69,7 @@
     <Compile Include="CreateWithRandomNameTest.cs" />
     <Compile Include="JoinTest.cs" />
     <Compile Include="CreateTest.cs" />
+    <Compile Include="AuthenticateFromGameServerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

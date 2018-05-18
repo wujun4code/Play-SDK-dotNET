@@ -46,10 +46,65 @@ namespace LeanCloud
 
 
 		/// <summary>
+		/// Fetchs the router.
+		/// </summary>
+		public void FetchRouter(bool secure = true, Action<PlayGameServer> routerLoaded = null)
+		{
+			var routerLinkCmd = new PlayCommand()
+			{
+				RelativeUrl = "/router",
+				UrlParameters = new Dictionary<string, object>()
+				{
+					{ "appId", AVClient.CurrentConfiguration.ApplicationId },
+					{ "secure" , secure}
+				},
+			};
+
+			Play.RunHttpCommand(routerLinkCmd, done: (request, response) =>
+			{
+				var gameServer = Play.GameServer = PlayGameServer.FetchFromPublicCloud(response);
+				if (routerLoaded != null)
+				{
+					routerLoaded(gameServer);
+				}
+			});
+		}
+
+		public void ConnectGameServer()
+		{
+			Play.DoConnectToGameSever(Play.GameServer, () =>
+			{
+				var sessionOpenCmd = new PlayCommand()
+				{
+					Body = new Dictionary<string, object>()
+					{
+						{ "cmd", "session"},
+						{ "op", "open"},
+						{ "ua" ,Play.PlayVersion+"_" + Play.GameVersion},
+						{ "peerId", this.ID }
+					}
+				};
+
+				Play.RunSocketCommand(sessionOpenCmd, PlayEventCode.OnAuthenticating, done: (req, res) =>
+				 {
+					 this.SessionToken = res.Body["st"] as string;
+				 });
+			});
+		}
+
+		public void AuthenticateFromGameServer()
+		{
+			FetchRouter(routerLoaded: (gameServer) =>
+			{
+				ConnectGameServer();
+			});
+		}
+
+		/// <summary>
 		/// current peer authenticate
 		/// </summary>
 		/// <returns></returns>
-		public bool Authenticate()
+		public void AuthenticateFromRouterServer()
 		{
 			var authCommand = new PlayCommand()
 			{
@@ -66,7 +121,6 @@ namespace LeanCloud
 			{
 				this.SessionToken = resp.Body["token"] as string;
 			});
-			return true;
 		}
 
 		internal void SessionOpen(Action sessionOpened = null)

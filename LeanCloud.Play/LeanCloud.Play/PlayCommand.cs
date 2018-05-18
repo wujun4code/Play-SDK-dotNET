@@ -41,6 +41,10 @@ namespace LeanCloud
 
 		internal readonly string ApiVersion = "v1";
 		internal static IDictionary<string, object> headers;
+        /// <summary>
+        /// Gets the headers.
+        /// </summary>
+        /// <value>The headers.</value>
 		public static IDictionary<string, object> Headers
 		{
 			get
@@ -67,10 +71,28 @@ namespace LeanCloud
 			}
 		}
 
+        /// <summary>
+        /// Gets or sets the relative URL.
+        /// </summary>
+        /// <value>The relative URL.</value>
 		public string RelativeUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the body.
+        /// </summary>
+        /// <value>The body.</value>
 		public IDictionary<string, object> Body { get; set; }
+
+        /// <summary>
+        /// Gets or sets the method.
+        /// </summary>
+        /// <value>The method.</value>
 		public string Method { get; set; }
 
+        /// <summary>
+        /// Gets the http encode.
+        /// </summary>
+        /// <value>The http encode.</value>
 		public HttpRequest HttpEncode
 		{
 			get
@@ -91,6 +113,10 @@ namespace LeanCloud
 			}
 		}
 
+        /// <summary>
+        /// Gets or sets the URL parameters.
+        /// </summary>
+        /// <value>The URL parameters.</value>
 		public IDictionary<string, object> UrlParameters { get; set; }
 
 		private string HttpMethod
@@ -121,6 +147,10 @@ namespace LeanCloud
 			}
 		}
 
+        /// <summary>
+        /// Gets the sokcet encode.
+        /// </summary>
+        /// <value>The sokcet encode.</value>
 		public string SokcetEncode
 		{
 			get
@@ -158,16 +188,34 @@ namespace LeanCloud
 		}
 	}
 
+    /// <summary>
+    /// Play response.
+    /// </summary>
 	public class PlayResponse
 	{
+		/// <summary>
+        /// Gets or sets the status code.
+        /// </summary>
+        /// <value>The status code.</value>
 		public int StatusCode { get; internal set; }
 
+        /// <summary>
+        /// Gets or sets the body.
+        /// </summary>
+        /// <value>The body.</value>
 		public IDictionary<string, object> Body { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:LeanCloud.PlayResponse"/> class.
+        /// </summary>
 		public PlayResponse()
 		{
 
 		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:LeanCloud.PlayResponse"/> class.
+        /// </summary>
+        /// <param name="sokcetDataPacket">Sokcet data packet.</param>
 		public PlayResponse(IDictionary<string, object> sokcetDataPacket)
 		{
 			Body = sokcetDataPacket;
@@ -189,6 +237,10 @@ namespace LeanCloud
 			}
 		}
 
+        /// <summary>
+        /// Gets the error reason.
+        /// </summary>
+        /// <value>The error reason.</value>
 		public string ErrorReason
 		{
 			get
@@ -197,6 +249,10 @@ namespace LeanCloud
 			}
 		}
 
+        /// <summary>
+        /// Gets the error code.
+        /// </summary>
+        /// <value>The error code.</value>
 		public int ErrorCode
 		{
 			get
