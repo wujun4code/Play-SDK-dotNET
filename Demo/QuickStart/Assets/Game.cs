@@ -24,8 +24,7 @@ public class Game : PlayMonoBehaviour {
 	public override void OnAuthenticated ()
 	{
 		// 根据房间名称「加入或创建房间」
-		PlayRoom room = new PlayRoom(roomName);
-		Play.JoinOrCreateRoom(room);
+		Play.JoinOrCreateRoom(roomName);
 	}
 
 	// 加入或创建房间成功回调接口
