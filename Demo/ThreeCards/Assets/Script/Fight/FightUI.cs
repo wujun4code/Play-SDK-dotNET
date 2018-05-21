@@ -14,9 +14,10 @@ public class FightUI : PlayMonoBehaviour {
 
     private Dictionary<string, PlayerUI> playerUIDict = null;
 
-	void Awake()
+	protected override void Awake ()
 	{
-        playerUIDict = new Dictionary<string, PlayerUI>();
+		base.Awake();
+		playerUIDict = new Dictionary<string, PlayerUI>();
 	}
 
     public void bind(LeanCloud.Player lcPlayer, int index) {
