@@ -16,12 +16,14 @@ namespace LeanCloud
 	/// </summary>
 	public class PlayMonoBehaviour : MonoBehaviour
 	{
-		/// <summary>
-		/// create a instance of PlayMonoBehaviour
-		/// </summary>
-		public PlayMonoBehaviour()
+		protected virtual void Awake() 
 		{
 			Play.RegisterBehaviour(this);
+		}
+
+		protected virtual void OnDestroy() 
+		{
+			Play.UnregisterBehaviour(this);
 		}
 
 		#region authentication
