@@ -82,9 +82,9 @@ namespace LeanCloud
         #endregion
 
         #region
-        OnConnectFailed = -80002,
+        OnConnectFailed = -8002,
         OnConnecting = 8001,
-        OnConnected = 80002,
+        OnConnected = 8002,
         #endregion
 
         #region 

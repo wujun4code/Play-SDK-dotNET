@@ -876,6 +876,14 @@ namespace LeanCloud
 			RegisterBehaviour<PlayRPCAttribute>(behaviour, RPCBehaviours);
 		}
 
+		public static void UnregisterBehaviour(PlayMonoBehaviour behaviour)
+		{
+			if (!Behaviours.Contains(behaviour)) return;
+			Behaviours.Remove(behaviour);
+			UnregisterBehaviour(behaviour, EventBehaviours);
+			UnregisterBehaviour(behaviour, RPCBehaviours);
+		}
+
 		internal static void RegisterBehaviour<T>(PlayMonoBehaviour behaviour, IDictionary<string, IList<PlayMonoBehaviour>> methodBehaviours)
 					   where T : Attribute
 		{
@@ -897,6 +905,20 @@ namespace LeanCloud
 				}
 			});
 		}
+
+		internal static void UnregisterBehaviour(PlayMonoBehaviour behaviour, IDictionary<string, IList<PlayMonoBehaviour>> methodBehaviours)
+		{
+			var methodBehaviourListCollection = methodBehaviours.Values;
+			methodBehaviourListCollection.Every(behaviours =>
+			{
+				if (behaviours.Contains(behaviour))
+				{
+					behaviours.Remove(behaviour);
+				}
+			});
+		}
+
+
 		internal static object lisentersMutex = new object();
 		internal static IList<IAVIMListener> lisenters = new List<IAVIMListener>();
 		internal static void SubscribeNoticeReceived(IAVIMListener listener, Func<AVIMNotice, bool> runtimeHook = null)

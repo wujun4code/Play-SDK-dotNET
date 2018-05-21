@@ -16,12 +16,23 @@ namespace LeanCloud
 	/// </summary>
 	public class PlayMonoBehaviour : MonoBehaviour
 	{
-		/// <summary>
-		/// create a instance of PlayMonoBehaviour
-		/// </summary>
+#if !UNITY
+        /// <summary>
+        /// only for unit test in windows or mono.
+        /// </summary>
 		public PlayMonoBehaviour()
 		{
 			Play.RegisterBehaviour(this);
+		}
+#endif
+		protected virtual void Awake()
+		{
+			Play.RegisterBehaviour(this);
+		}
+
+		protected virtual void OnDestroy() 
+		{
+			Play.UnregisterBehaviour(this);
 		}
 
 		#region authentication
