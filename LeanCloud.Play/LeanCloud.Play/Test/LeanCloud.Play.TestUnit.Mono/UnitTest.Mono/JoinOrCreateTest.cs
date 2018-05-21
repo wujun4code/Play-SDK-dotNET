@@ -29,12 +29,12 @@ namespace UnitTest.Mono
 		{
 			Play.JoinOrCreateRoom(RandomRoomName);
 		}
-
+        
 		[PlayEvent]
 		public override void OnCreatedRoom()
 		{
 			var roomName = Play.Room.Name;
-
+                     
 			var initData = new Hashtable();
 			initData.Add("ready", false);
 			initData.Add("gold", 200);
