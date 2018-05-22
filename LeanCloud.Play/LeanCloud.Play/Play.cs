@@ -444,7 +444,7 @@ namespace LeanCloud
 		}
 
 		/// <summary>
-		/// Rejoins the room.
+		/// Rejoin the room.
 		/// </summary>
 		/// <param name="roomName">Room name.</param>
 		public static void RejoinRoom(string roomName = null)

@@ -295,7 +295,7 @@ namespace LeanCloud
 				Play.RunSocketCommand(cmd);
 			}
 		}
-
+        
 		public void SetOpened(bool opened)
 		{
 			this.SetProperty<bool>(opened, "IsOpen");
