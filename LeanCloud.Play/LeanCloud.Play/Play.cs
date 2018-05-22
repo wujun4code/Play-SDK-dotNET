@@ -310,7 +310,7 @@ namespace LeanCloud
 				createRoomCommand.Body["room_id"] = roomName;
 			}
 
-			RunHttpCommand(createRoomCommand, PlayEventCode.None, (request, response) =>
+			RunHttpCommand(createRoomCommand, done: (request, response) =>
 			{
 				// get game server address from game router
 				var roomRemoteSecureAddress = response.Body["secure_addr"] as string;
@@ -375,7 +375,7 @@ namespace LeanCloud
 				},
 				Method = "POST"
 			};
-			RunHttpCommand(joinRoomCommand, PlayEventCode.None, DoJoinRoom);
+			RunHttpCommand(joinRoomCommand, done: DoJoinRoom);
 		}
 
 		/// <summary>
@@ -450,11 +450,11 @@ namespace LeanCloud
 				{
 					{ "client_id" , peer.ID },
 					{ "room_id", roomName },
-					{ "rejoin",true},
+					{ "rejoin", true},
 				},
 				Method = "POST"
 			};
-			RunHttpCommand(joinRoomCommand, PlayEventCode.None, DoJoinRoom);
+			RunHttpCommand(joinRoomCommand, done: DoRejoinRoom);
 		}
 
 		/// <summary>
@@ -572,6 +572,7 @@ namespace LeanCloud
 		{
 			if (!response.IsSuccessful)
 			{
+				Play.InvokeEvent(PlayEventCode.OnJoinRoomFailed, response.ErrorCode, response.ErrorReason);
 				return;
 			}
 			var room = GetRoomWhenGet(request, response);
@@ -583,6 +584,7 @@ namespace LeanCloud
 		{
 			if (!response.IsSuccessful)
 			{
+				Play.InvokeEvent(PlayEventCode.OnJoinRoomFailed, response.ErrorCode, response.ErrorReason);
 				return;
 			}
 			var room = GetRoomWhenGet(request, response);
