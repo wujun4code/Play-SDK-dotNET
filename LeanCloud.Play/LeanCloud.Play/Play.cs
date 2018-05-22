@@ -433,14 +433,28 @@ namespace LeanCloud
 		/// <param name="roomName">Room name.</param>
 		public static void RejoinRoom(string roomName = null)
 		{
-			if (roomName == null)
+			if (string.IsNullOrEmpty(roomName))
 			{
-				if (Play.Room != null)
+				if (Play.Room == null)
 				{
-					roomName = Play.Room.Name;
+					Play.InvokeEvent(PlayEventCode.OnJoinRoomFailed, "-100", "can NOT join a room with the name is NULL.");
+					return;
 				}
+				roomName = Play.Room.Name;
 			}
-			Play.JoinRoom(roomName);
+
+			var joinRoomCommand = new PlayCommand()
+			{
+				RelativeUrl = "/room/" + roomName + "/members",
+				Body = new Dictionary<string, object>()
+				{
+					{ "client_id" , peer.ID },
+					{ "room_id", roomName },
+					{ "rejoin",true},
+				},
+				Method = "POST"
+			};
+			RunHttpCommand(joinRoomCommand, PlayEventCode.None, DoJoinRoom);
 		}
 
 		/// <summary>
@@ -565,6 +579,17 @@ namespace LeanCloud
 			ConnectRoom(room);
 		}
 
+		internal static void DoRejoinRoom(PlayCommand request, PlayResponse response)
+		{
+			if (!response.IsSuccessful)
+			{
+				return;
+			}
+			var room = GetRoomWhenGet(request, response);
+			Play.InvokeEvent(PlayEventCode.OnJoiningRoom);
+			ConnectRoom(room, true);
+		}
+
 		internal static void DoLeaveRoom(PlayCommand request, PlayResponse response)
 		{
 			DisconnectRoom(Play.Room);
@@ -593,18 +618,18 @@ namespace LeanCloud
 			return Play.Room.GetPlayer(clientID);
 		}
 
-		internal static void ConnectRoom(PlayRoom room, bool isNew = false)
+		internal static void ConnectRoom(PlayRoom room, bool isRejoin = false)
 		{
 			lock (roomLock)
 			{
 				DoConnectToGameSever(room, () =>
 				{
-					peer.SessionRoomJoin(room, (roomm, response) =>
-					{
-						DoSetRoomProperties(roomm, response);
-						Play.Room = roomm;
-						Play.InvokeEvent(PlayEventCode.OnJoinedRoom);
-					});
+					peer.SessionRoomJoin(room, roomJoined: (roomm, response) =>
+					 {
+						 DoSetRoomProperties(roomm, response);
+						 Play.Room = roomm;
+						 Play.InvokeEvent(PlayEventCode.OnJoinedRoom);
+					 });
 				});
 			}
 		}
@@ -1169,12 +1194,14 @@ namespace LeanCloud
 
 		internal static void PlayerOnline(Player player)
 		{
-			Play.InvokeEvent(PlayEventCode.OnPlayerConnectedRoom, player);
+			player.IsInactive = false;
+			Play.InvokeEvent(PlayEventCode.OnPlayerActivityChanged, player);
 		}
 
 		internal static void PlayerOffline(Player player)
 		{
-			Play.InvokeEvent(PlayEventCode.OnPlayerDisconnectedRoom, player);
+			player.IsInactive = true;
+			Play.InvokeEvent(PlayEventCode.OnPlayerActivityChanged, player);
 		}
 
 		internal static void PlayerRejoined(Player player)
