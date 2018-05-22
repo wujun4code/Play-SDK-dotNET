@@ -703,20 +703,20 @@ namespace LeanCloud
 		{
 			try
 			{
-				var metaNoticeFromServer = Json.Parse(obj) as IDictionary<string, object>;
-
-				Log("sokcet<=" + obj);
-
-				var validator = AVIMNotice.IsValidLeanCloudProtocol(metaNoticeFromServer);
-
-				if (validator)
+				lock (noticeMutext)
 				{
-					lock (noticeMutext)
-					{
-						var notice = new AVIMNotice(metaNoticeFromServer);
-						m_NoticeReceived?.Invoke(peer, notice);
-					}
-				}
+					Log("sokcet<=" + obj);
+
+                    var metaNoticeFromServer = Json.Parse(obj) as IDictionary<string, object>;
+
+                    var validator = AVIMNotice.IsValidLeanCloudProtocol(metaNoticeFromServer);
+
+                    if (validator)
+                    {
+                        var notice = new AVIMNotice(metaNoticeFromServer);
+                        m_NoticeReceived?.Invoke(peer, notice);
+                    }
+				}            
 			}
 			catch (Exception ex)
 			{
