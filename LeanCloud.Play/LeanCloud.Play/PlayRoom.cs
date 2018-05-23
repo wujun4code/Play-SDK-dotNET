@@ -53,9 +53,9 @@ namespace LeanCloud
 			/// empty time to live for the Room in seconds. max value is 1800(seconds).
 			/// </summary>
 			public int EmptyTimeToLive { get; set; }
-
+            
 			/// <summary>
-			/// time to keep a player when disconnect from room. max value is 60(seconds).
+			/// time(unit:second) to keep a player when disconnect from room. max value is 60(seconds).
 			/// </summary>
 			public int PlayerTimeToKeep { get; set; }
 

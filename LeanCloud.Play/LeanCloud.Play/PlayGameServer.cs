@@ -38,7 +38,7 @@ namespace LeanCloud
 		{
 			Public = 0,
 			Private = 1,
-			SelfHosting = 2
+			SelfHost = 2
 		}
 
 		/// <summary>

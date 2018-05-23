@@ -32,18 +32,9 @@
     <DocumentationFile>bin\Release\Unity35\LeanCloud.Play.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AssemblyLister">
-      <HintPath>Unity\35\AssemblyLister.dll</HintPath>
-    </Reference>
-    <Reference Include="LeanCloud.Core">
-      <HintPath>Unity\35\LeanCloud.Core.dll</HintPath>
-    </Reference>
     <Reference Include="LeanCloud.Realtime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Unity\35\LeanCloud.Realtime.dll</HintPath>
-    </Reference>
-    <Reference Include="LeanCloud.Storage">
-      <HintPath>Unity\35\LeanCloud.Storage.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,6 +59,12 @@
     </Reference>
     <Reference Include="AssemblyLister">
       <HintPath>Unity\35\AssemblyLister.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Storage">
+      <HintPath>Unity\35\LeanCloud.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Core">
+      <HintPath>Unity\35\LeanCloud.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -109,7 +106,11 @@
     <Compile Include="Listener\RoomOpenListener.cs" />
     <Compile Include="Listener\RoomVisibleListener.cs" />
     <Compile Include="Listener\SocketResponseListener.cs" />
+    <Compile Include="Listener\RoomOfflineListener.cs" />
     <Compile Include="PlayGameServer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

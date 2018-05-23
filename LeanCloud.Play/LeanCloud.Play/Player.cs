@@ -116,6 +116,14 @@ namespace LeanCloud
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="T:LeanCloud.Player"/> is in active.
+		/// </summary>
+		/// <value><c>true</c> if is in active; otherwise, <c>false</c>.</value>
+		public bool IsInactive
+		{
+			get; internal set;
+		}
 
 		internal override void Save(IDictionary<string, object> increment)
 		{
@@ -131,7 +139,15 @@ namespace LeanCloud
 				}
 			};
 
-			Play.RunSocketCommand(updateCommand);
+			Play.RunSocketCommand(updateCommand, done: (request, response) =>
+				  {
+					  if (response.IsSuccessful)
+					  {
+						  //IDictionary<string, object> results = response.Body["results"] as IDictionary<string, object>;
+						  //this.MergeFromServer(results);
+						  //Play.InvokeEvent(PlayEventCode.OnPlayerCustomPropertiesChanged, this, results.ToHashtable());
+					  }
+				  });
 		}
 
 		private IEnumerable<IDictionary<string, object>> GrabPlayerProperties(PlayResponse response)
