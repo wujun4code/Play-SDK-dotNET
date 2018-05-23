@@ -33,6 +33,7 @@ namespace LeanCloud
 			Play.SubscribeNoticeReceived(new PlayRPCListener());
 			Play.SubscribeNoticeReceived(new RoomJoinListener());
 			Play.SubscribeNoticeReceived(new RoomOnlineListener());
+			Play.SubscribeNoticeReceived(new RoomOfflineListener());
 			Play.SubscribeNoticeReceived(new RoomUpdateListener());
 			Play.SubscribeNoticeReceived(new RoomLeftListener());
 			Play.SubscribeNoticeReceived(new RoomMasterClientSwitchListener());
@@ -707,16 +708,16 @@ namespace LeanCloud
 				{
 					Log("sokcet<=" + obj);
 
-                    var metaNoticeFromServer = Json.Parse(obj) as IDictionary<string, object>;
+					var metaNoticeFromServer = Json.Parse(obj) as IDictionary<string, object>;
 
-                    var validator = AVIMNotice.IsValidLeanCloudProtocol(metaNoticeFromServer);
+					var validator = AVIMNotice.IsValidLeanCloudProtocol(metaNoticeFromServer);
 
-                    if (validator)
-                    {
-                        var notice = new AVIMNotice(metaNoticeFromServer);
-                        m_NoticeReceived?.Invoke(peer, notice);
-                    }
-				}            
+					if (validator)
+					{
+						var notice = new AVIMNotice(metaNoticeFromServer);
+						m_NoticeReceived?.Invoke(peer, notice);
+					}
+				}
 			}
 			catch (Exception ex)
 			{
