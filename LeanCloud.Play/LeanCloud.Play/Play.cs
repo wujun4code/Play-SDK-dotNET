@@ -33,6 +33,7 @@ namespace LeanCloud
 			Play.SubscribeNoticeReceived(new PlayRPCListener());
 			Play.SubscribeNoticeReceived(new RoomJoinListener());
 			Play.SubscribeNoticeReceived(new RoomOnlineListener());
+			Play.SubscribeNoticeReceived(new RoomOfflineListener());
 			Play.SubscribeNoticeReceived(new RoomUpdateListener());
 			Play.SubscribeNoticeReceived(new RoomLeftListener());
 			Play.SubscribeNoticeReceived(new RoomMasterClientSwitchListener());
@@ -310,7 +311,7 @@ namespace LeanCloud
 				createRoomCommand.Body["room_id"] = roomName;
 			}
 
-			RunHttpCommand(createRoomCommand, PlayEventCode.None, (request, response) =>
+			RunHttpCommand(createRoomCommand, done: (request, response) =>
 			{
 				// get game server address from game router
 				var roomRemoteSecureAddress = response.Body["secure_addr"] as string;
@@ -375,7 +376,7 @@ namespace LeanCloud
 				},
 				Method = "POST"
 			};
-			RunHttpCommand(joinRoomCommand, PlayEventCode.None, DoJoinRoom);
+			RunHttpCommand(joinRoomCommand, done: DoJoinRoom);
 		}
 
 		/// <summary>
@@ -433,14 +434,28 @@ namespace LeanCloud
 		/// <param name="roomName">Room name.</param>
 		public static void RejoinRoom(string roomName = null)
 		{
-			if (roomName == null)
+			if (string.IsNullOrEmpty(roomName))
 			{
-				if (Play.Room != null)
+				if (Play.Room == null)
 				{
-					roomName = Play.Room.Name;
+					Play.InvokeEvent(PlayEventCode.OnJoinRoomFailed, "-100", "can NOT join a room with the name is NULL.");
+					return;
 				}
+				roomName = Play.Room.Name;
 			}
-			Play.JoinRoom(roomName);
+
+			var joinRoomCommand = new PlayCommand()
+			{
+				RelativeUrl = "/room/" + roomName + "/members",
+				Body = new Dictionary<string, object>()
+				{
+					{ "client_id" , peer.ID },
+					{ "room_id", roomName },
+					{ "rejoin", true},
+				},
+				Method = "POST"
+			};
+			RunHttpCommand(joinRoomCommand, done: DoRejoinRoom);
 		}
 
 		/// <summary>
@@ -558,11 +573,24 @@ namespace LeanCloud
 		{
 			if (!response.IsSuccessful)
 			{
+				Play.InvokeEvent(PlayEventCode.OnJoinRoomFailed, response.ErrorCode, response.ErrorReason);
 				return;
 			}
 			var room = GetRoomWhenGet(request, response);
 			Play.InvokeEvent(PlayEventCode.OnJoiningRoom);
 			ConnectRoom(room);
+		}
+
+		internal static void DoRejoinRoom(PlayCommand request, PlayResponse response)
+		{
+			if (!response.IsSuccessful)
+			{
+				Play.InvokeEvent(PlayEventCode.OnJoinRoomFailed, response.ErrorCode, response.ErrorReason);
+				return;
+			}
+			var room = GetRoomWhenGet(request, response);
+			Play.InvokeEvent(PlayEventCode.OnJoiningRoom);
+			ConnectRoom(room, true);
 		}
 
 		internal static void DoLeaveRoom(PlayCommand request, PlayResponse response)
@@ -593,18 +621,18 @@ namespace LeanCloud
 			return Play.Room.GetPlayer(clientID);
 		}
 
-		internal static void ConnectRoom(PlayRoom room, bool isNew = false)
+		internal static void ConnectRoom(PlayRoom room, bool isRejoin = false)
 		{
 			lock (roomLock)
 			{
 				DoConnectToGameSever(room, () =>
 				{
-					peer.SessionRoomJoin(room, (roomm, response) =>
-					{
-						DoSetRoomProperties(roomm, response);
-						Play.Room = roomm;
-						Play.InvokeEvent(PlayEventCode.OnJoinedRoom);
-					});
+					peer.SessionRoomJoin(room, roomJoined: (roomm, response) =>
+					 {
+						 DoSetRoomProperties(roomm, response);
+						 Play.Room = roomm;
+						 Play.InvokeEvent(PlayEventCode.OnJoinedRoom);
+					 });
 				});
 			}
 		}
@@ -676,15 +704,15 @@ namespace LeanCloud
 		{
 			try
 			{
-				var metaNoticeFromServer = Json.Parse(obj) as IDictionary<string, object>;
-
-				Log("sokcet<=" + obj);
-
-				var validator = AVIMNotice.IsValidLeanCloudProtocol(metaNoticeFromServer);
-
-				if (validator)
+				lock (noticeMutext)
 				{
-					lock (noticeMutext)
+					Log("sokcet<=" + obj);
+
+					var metaNoticeFromServer = Json.Parse(obj) as IDictionary<string, object>;
+
+					var validator = AVIMNotice.IsValidLeanCloudProtocol(metaNoticeFromServer);
+
+					if (validator)
 					{
 						var notice = new AVIMNotice(metaNoticeFromServer);
 						m_NoticeReceived?.Invoke(peer, notice);
@@ -1169,12 +1197,14 @@ namespace LeanCloud
 
 		internal static void PlayerOnline(Player player)
 		{
-			Play.InvokeEvent(PlayEventCode.OnPlayerConnectedRoom, player);
+			player.IsInactive = false;
+			Play.InvokeEvent(PlayEventCode.OnPlayerActivityChanged, player);
 		}
 
 		internal static void PlayerOffline(Player player)
 		{
-			Play.InvokeEvent(PlayEventCode.OnPlayerDisconnectedRoom, player);
+			player.IsInactive = true;
+			Play.InvokeEvent(PlayEventCode.OnPlayerActivityChanged, player);
 		}
 
 		internal static void PlayerRejoined(Player player)

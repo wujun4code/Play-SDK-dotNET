@@ -90,7 +90,7 @@ namespace LeanCloud
 			  });
 		}
 
-		internal void SessionRoomJoin(PlayRoom room, Action<PlayRoom, PlayResponse> roomJoined = null)
+		internal void SessionRoomJoin(PlayRoom room, bool isRejoin = false, Action<PlayRoom, PlayResponse> roomJoined = null)
 		{
 			var joinCommand = new PlayCommand()
 			{
@@ -101,6 +101,10 @@ namespace LeanCloud
 					{ "cid", room.Name },
 				}
 			};
+			if (isRejoin)
+			{
+				joinCommand.Body.Add("rejoin", isRejoin);
+			}
 			Play.RunSocketCommand(joinCommand, done: (req, response) =>
 			{
 				if (roomJoined != null)

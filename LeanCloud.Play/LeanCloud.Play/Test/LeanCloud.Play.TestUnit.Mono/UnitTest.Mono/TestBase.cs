@@ -20,7 +20,8 @@ namespace UnitTest.Mono
 			Websockets.Net.WebsocketConnection.Link();
 			Play.Logger = (message) =>
 			{
-				Console.WriteLine(message);
+				System.Diagnostics.Debug.WriteLine(message);
+				//Console.WriteLine(message);
 			};
 		}
 		private static Random random = new Random();

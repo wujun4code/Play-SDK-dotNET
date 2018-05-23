@@ -3,17 +3,20 @@ using System;
 
 using LeanCloud;
 
-namespace UnitTest.Mono {
+namespace UnitTest.Mono
+{
+
 	[TestFixture()]
-	public class OpenRoomTest: TestBase {
-		public OpenRoomTest () : base()
+	public class OpenRoomTest : TestBase
+	{
+		public OpenRoomTest() : base()
 		{
-			
+
 		}
 
 		[Test()]
 		[Timeout(300000)]
-		public void OpenTest ()
+		public void OpenTest()
 		{
 			Play.UserID = "xxx";
 			Play.Connect("0.0.1");
@@ -22,10 +25,11 @@ namespace UnitTest.Mono {
 		}
 
 		[PlayEvent]
-		public override void OnAuthenticated ()
+		public override void OnAuthenticated()
 		{
 			Play.Log("OnAuthenticated");
-			var conf = new PlayRoom.RoomConfig() {
+			var conf = new PlayRoom.RoomConfig()
+			{
 				IsOpen = false,
 				IsVisible = false,
 			};
@@ -33,7 +37,7 @@ namespace UnitTest.Mono {
 		}
 
 		[PlayEvent]
-		public override void OnCreatedRoom ()
+		public override void OnCreatedRoom()
 		{
 			Play.Log("OnCreatedRoom");
 			var roomName = Play.Room.Name;
@@ -41,13 +45,13 @@ namespace UnitTest.Mono {
 		}
 
 		[PlayEvent]
-		public override void OnCreateRoomFailed (int errorCode, string reason)
+		public override void OnCreateRoomFailed(int errorCode, string reason)
 		{
 			Play.Log("OnCreateRoomFailed: " + reason);
 		}
 
 		[PlayEvent]
-		public override void OnJoinedRoom ()
+		public override void OnJoinedRoom()
 		{
 			Play.Log("OnJoinedRoom");
 			Play.Log("IsOpen: " + Play.Room.IsOpen + ", " + Play.Room.IsVisible);
@@ -56,7 +60,7 @@ namespace UnitTest.Mono {
 		}
 
 		[PlayEvent]
-		public override void OnJoinRoomFailed (int errorCode, string reason)
+		public override void OnJoinRoomFailed(int errorCode, string reason)
 		{
 			Play.Log("OnJoinRoomFailed: " + reason);
 		}
