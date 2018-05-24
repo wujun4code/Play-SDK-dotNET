@@ -45,7 +45,7 @@ public class Game : PlayMonoBehaviour {
 	[PlayEvent]
 	public override void OnJoinedRoom ()
 	{
-		Debug.Log("OnJoinedRoom");
+		Debug.Log("OnJoinedRoom: " + Play.Room.Name);
 	}
 
 	// 其他玩家加入回调接口
