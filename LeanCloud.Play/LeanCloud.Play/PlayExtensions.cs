@@ -153,7 +153,7 @@ namespace LeanCloud
                 }
                 catch (InvalidCastException ex)
                 {
-                    result = default(T);
+                    //result = default(T);
                 }
             }
             return result;

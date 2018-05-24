@@ -455,6 +455,7 @@ namespace LeanCloud
                 {
                     { "cmd", "conv"},
                     { "op", "add"},
+                    { "cid", roomName},
                     { "createOnNotFound", true },
                 },
             };
@@ -466,7 +467,7 @@ namespace LeanCloud
 
             RunSocketCommand(joinOrCreateRoomCommand, PlayEventCode.OnJoinOrCreatingRoom, (req, res) =>
             {
-                if (res.Body.ContainsKey("room"))
+                if (res.Body.ContainsKey("cid"))
                 {
                     DoJoinRoom(req, res);
                 }
