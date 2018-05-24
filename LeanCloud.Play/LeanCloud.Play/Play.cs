@@ -62,6 +62,10 @@ namespace LeanCloud
             }
         }
         internal static object mutexEventMessageLock = new object();
+        /// <summary>
+        /// Gets or sets the eevnt message queue.
+        /// </summary>
+        /// <value>The eevnt message queue.</value>
         public static Queue<PlayEventMessage> EevntMessageQueue { get; set; }
         /// <summary>
         /// 
@@ -87,6 +91,11 @@ namespace LeanCloud
 #endif
         }
 
+        /// <summary>
+        /// Enqueues the event message.
+        /// </summary>
+        /// <param name="eventCode">Event code.</param>
+        /// <param name="parameters">Parameters.</param>
         public static void EnqueueEventMessage(PlayEventCode eventCode, params object[] parameters)
         {
             EnqueueEventMessage(new PlayEventMessage()
@@ -96,6 +105,10 @@ namespace LeanCloud
             });
         }
 
+        /// <summary>
+        /// Enqueues the event message.
+        /// </summary>
+        /// <param name="eventMessage">Event message.</param>
         public static void EnqueueEventMessage(PlayEventMessage eventMessage)
         {
             lock (mutexEventMessageLock)
@@ -103,7 +116,10 @@ namespace LeanCloud
                 EevntMessageQueue.Enqueue(eventMessage);
             }
         }
-
+        /// <summary>
+        /// Dequeues the event message.
+        /// </summary>
+        /// <param name="eventCode">Event code.</param>
         public static void DequeueEventMessage(PlayEventCode eventCode)
         {
 
@@ -337,25 +353,20 @@ namespace LeanCloud
             {
                 Body = new Dictionary<string, object>()
                 {
-                    { "client_id" , peer.ID },
+                    { "cmd", "conv"},
+                    { "op", "start"},
                 },
-                Method = "POST",
-                RelativeUrl = "/rooms"
             };
-            if (roomName != null)
-            {
-                createRoomCommand.Body["room_id"] = roomName;
-            }
-            else
+
+            if (string.IsNullOrEmpty(roomName))
             {
                 roomName = PlayRoom.RandomRoomName(24);
-                createRoomCommand.Body["room_id"] = roomName;
             }
 
-            RunHttpCommand(createRoomCommand, done: (request, response) =>
+            RunSocketCommand(createRoomCommand, done: (request, response) =>
             {
                 // get game server address from game router
-                var roomRemoteSecureAddress = response.Body["secure_addr"] as string;
+                var roomRemoteSecureAddress = response.Body["secureAddr"] as string;
                 var roomRemoteAddress = response.Body["addr"] as string;
 
                 // open websocket connection with game server
@@ -381,18 +392,17 @@ namespace LeanCloud
         {
             var joinRandomRoomCommand = new PlayCommand()
             {
-                RelativeUrl = "/room/members",
-                Method = "POST",
                 Body = new Dictionary<string, object>()
                 {
-                    { "client_id" , peer.ID },
+                    { "cmd", "conv"},
+                    { "op", "start"},
                 },
             };
             if (matchProperties != null)
             {
-                joinRandomRoomCommand.Body.Add("expect_attr", matchProperties.ToDictionary<string, object>());
+                joinRandomRoomCommand.Body.Add("expectAttr", matchProperties.ToDictionary<string, object>());
             }
-            RunHttpCommand(joinRandomRoomCommand, PlayEventCode.OnRandomJoiningRoom, DoJoinRoom);
+            RunSocketCommand(joinRandomRoomCommand, PlayEventCode.OnRandomJoiningRoom, DoJoinRoom);
         }
 
         /// <summary>
@@ -409,15 +419,14 @@ namespace LeanCloud
             }
             var joinRoomCommand = new PlayCommand()
             {
-                RelativeUrl = "/room/" + roomName + "/members",
                 Body = new Dictionary<string, object>()
                 {
-                    { "client_id" , peer.ID },
-                    { "room_id", roomName },
+                    { "cmd", "conv"},
+                    { "op", "add"},
+                    { "cid", roomName },
                 },
-                Method = "POST"
             };
-            RunHttpCommand(joinRoomCommand, done: DoJoinRoom);
+            RunSocketCommand(joinRoomCommand, done: DoJoinRoom);
         }
 
         /// <summary>
@@ -442,21 +451,20 @@ namespace LeanCloud
             }
             var joinOrCreateRoomCommand = new PlayCommand()
             {
-                RelativeUrl = "/room/" + roomName + "/members",
                 Body = new Dictionary<string, object>()
                 {
-                    { "client_id" , peer.ID },
-                    { "room_id", roomName },
-                    { "create", true },
+                    { "cmd", "conv"},
+                    { "op", "add"},
+                    { "createOnNotFound", true },
                 },
-                Method = "POST"
             };
+
             if (roomConfig.ExpectedUsers != null)
             {
-                joinOrCreateRoomCommand.Body.Add("expect_members", roomConfig.ExpectedUsers.ToArray());
+                joinOrCreateRoomCommand.Body.Add("expectMembers", roomConfig.ExpectedUsers.ToArray());
             }
 
-            RunHttpCommand(joinOrCreateRoomCommand, PlayEventCode.OnJoinOrCreatingRoom, (req, res) =>
+            RunSocketCommand(joinOrCreateRoomCommand, PlayEventCode.OnJoinOrCreatingRoom, (req, res) =>
             {
                 if (res.Body.ContainsKey("room"))
                 {
@@ -487,16 +495,15 @@ namespace LeanCloud
 
             var joinRoomCommand = new PlayCommand()
             {
-                RelativeUrl = "/room/" + roomName + "/members",
                 Body = new Dictionary<string, object>()
                 {
-                    { "client_id" , peer.ID },
-                    { "room_id", roomName },
+                    { "cmd", "conv"},
+                    { "op", "add"},
+                    { "cid", roomName },
                     { "rejoin", true},
                 },
-                Method = "POST"
             };
-            RunHttpCommand(joinRoomCommand, done: DoRejoinRoom);
+            RunSocketCommand(joinRoomCommand, done: DoRejoinRoom);
         }
 
         /// <summary>
@@ -589,15 +596,14 @@ namespace LeanCloud
         {
             var leaveRoomCommand = new PlayCommand()
             {
-                RelativeUrl = "/room/" + Room.Name + "/members",
                 Body = new Dictionary<string, object>()
                 {
-                    { "client_id" , peer.ID },
-                    { "room_id", Room.Name }
+                    { "cmd" , "conv" },
+                    { "op" , "remove" },
+                    { "cid", Room.Name }
                 },
-                Method = "DELETE"
             };
-            RunHttpCommand(leaveRoomCommand, PlayEventCode.OnLeavingRoom, DoLeaveRoom);
+            RunSocketCommand(leaveRoomCommand, PlayEventCode.OnLeavingRoom, DoLeaveRoom);
         }
 
         private static object friendListMutex = new object();
@@ -642,18 +648,12 @@ namespace LeanCloud
         internal static PlayRoom GetRoomWhenGet(PlayCommand request, PlayResponse response)
         {
             var room = new PlayRoom();
-            room.RoomRemoteSecureAddress = response.Body["secure_addr"] as string;
+            room.RoomRemoteSecureAddress = response.Body["secureAddr"] as string;
             room.RoomRemoteAddress = response.Body["addr"] as string;
-            var roomProperties = response.Body["room"] as IDictionary<string, object>;
-            room.SetProperties(roomProperties);
-            room.Name = response.Body["room_id"] as string;
-            return room;
-        }
 
-        internal static PlayRoom GetRoomWhenCreate(PlayRoom room, PlayResponse response)
-        {
-            room.RoomRemoteSecureAddress = response.Body["secure_addr"] as string;
-            room.RoomRemoteAddress = response.Body["addr"] as string;
+            var roomProperties = response.Body;
+            room.SetProperties(roomProperties);
+
             return room;
         }
 
@@ -668,12 +668,12 @@ namespace LeanCloud
             {
                 DoConnectToGameSever(room, () =>
                 {
-                    peer.SessionRoomJoin(room, roomJoined: (roomm, response) =>
-                     {
-                         DoSetRoomProperties(roomm, response);
-                         Play.Room = roomm;
-                         Play.InvokeEvent(PlayEventCode.OnJoinedRoom);
-                     });
+                    peer.SessionRoomJoin(room, isRejoin: isRejoin, roomJoined: (roomm, response) =>
+                       {
+                           DoSetRoomProperties(roomm, response);
+                           Play.Room = roomm;
+                           Play.InvokeEvent(PlayEventCode.OnJoinedRoom);
+                       });
                 });
             }
         }

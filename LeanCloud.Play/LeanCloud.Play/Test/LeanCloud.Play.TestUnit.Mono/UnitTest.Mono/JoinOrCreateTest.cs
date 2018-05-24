@@ -9,11 +9,6 @@ namespace UnitTest.Mono
 	[TestFixture()]
 	public class JoinOrCreateTest : TestBase
 	{
-		public JoinOrCreateTest() : base()
-		{
-
-		}
-
 		[Test()]
 		[Timeout(300000)]
 		public void JoinOrCreate()

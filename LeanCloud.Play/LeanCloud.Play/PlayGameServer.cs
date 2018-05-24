@@ -1,6 +1,9 @@
 ﻿using System;
 namespace LeanCloud
 {
+    /// <summary>
+    /// Play game server.
+    /// </summary>
 	public class PlayGameServer
 	{
 		/// <summary>
@@ -27,8 +30,16 @@ namespace LeanCloud
 		/// <value>The ttl.</value>
 		public int TTL { get; set; }
 
+        /// <summary>
+        /// Gets or sets the service mode.
+        /// </summary>
+        /// <value>The service mode.</value>
 		public Mode ServiceMode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the comunication protocol.
+        /// </summary>
+        /// <value>The comunication protocol.</value>
 		public Protocol ComunicationProtocol { get; set; }
 
 		/// <summary>
@@ -36,8 +47,17 @@ namespace LeanCloud
 		/// </summary>
 		public enum Mode
 		{
+            /// <summary>
+            /// The public.
+            /// </summary>
 			Public = 0,
+            /// <summary>
+            /// The private.
+            /// </summary>
 			Private = 1,
+            /// <summary>
+            /// The self host.
+            /// </summary>
 			SelfHost = 2
 		}
 
@@ -46,11 +66,25 @@ namespace LeanCloud
 		/// </summary>
 		public enum Protocol
 		{
+            /// <summary>
+            /// The web sokcet.
+            /// </summary>
 			WebSokcet = 0,
+            /// <summary>
+            /// The tcp.
+            /// </summary>
 			TCP = 1,
+            /// <summary>
+            /// The UDP.
+            /// </summary>
 			UDP = 2
 		}
 
+        /// <summary>
+        /// Fetchs from public cloud.
+        /// </summary>
+        /// <returns>The from public cloud.</returns>
+        /// <param name="response">Response.</param>
 		public static PlayGameServer FetchFromPublicCloud(PlayResponse response)
 		{
 			if (response.IsSuccessful)

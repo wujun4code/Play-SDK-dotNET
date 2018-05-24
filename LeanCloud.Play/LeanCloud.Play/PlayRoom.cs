@@ -69,7 +69,8 @@ namespace LeanCloud
 					return new RoomConfig()
 					{
 						IsOpen = true,
-						IsVisible = true
+						IsVisible = true,
+
 					};
 				}
 			}
