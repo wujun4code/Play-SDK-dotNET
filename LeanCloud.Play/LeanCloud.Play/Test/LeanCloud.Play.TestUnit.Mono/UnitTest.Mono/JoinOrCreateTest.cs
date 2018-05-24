@@ -22,7 +22,7 @@ namespace UnitTest.Mono
 		[PlayEvent]
 		public override void OnAuthenticated()
 		{
-			Play.JoinOrCreateRoom(RandomRoomName);
+            Play.JoinOrCreateRoom("xman");
 		}
         
 		[PlayEvent]
