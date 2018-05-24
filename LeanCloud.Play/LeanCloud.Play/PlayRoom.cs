@@ -69,7 +69,8 @@ namespace LeanCloud
 					return new RoomConfig()
 					{
 						IsOpen = true,
-						IsVisible = true
+						IsVisible = true,
+
 					};
 				}
 			}
@@ -295,7 +296,7 @@ namespace LeanCloud
 				Play.RunSocketCommand(cmd);
 			}
 		}
-
+        
 		public void SetOpened(bool opened)
 		{
 			this.SetProperty<bool>(opened, "IsOpen");

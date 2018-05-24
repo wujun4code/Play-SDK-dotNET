@@ -46,6 +46,7 @@ namespace LeanCloud.Internal
                 mutex.ExitWriteLock();
             }
         }
+        
         public String GetClassName(Type type)
         {
             return type == typeof(PlaySynchronousObject) ? "PlaySynchronousObject" : PlaySynchronousObjectSubclassInfo.GetSynchronousObjectClassName(type.GetTypeInfo());

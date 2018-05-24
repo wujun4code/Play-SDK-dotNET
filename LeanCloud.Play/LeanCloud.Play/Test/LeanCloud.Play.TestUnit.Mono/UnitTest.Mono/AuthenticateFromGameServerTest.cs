@@ -1,20 +1,19 @@
 ﻿using NUnit.Framework;
 using System;
 using LeanCloud;
-using System.Linq;
 using System.Collections;
+using System.Linq;
 
 namespace UnitTest.Mono
 {
 	[TestFixture()]
-	public class JoinOrCreateTest : TestBase
+	public class AuthenticateFromGameServerTest : TestBase
 	{
 		[Test()]
-		[Timeout(300000)]
-		public void JoinOrCreate()
+		public void AuthenticateFromGameServer()
 		{
-			Play.UserID = "WuJun";
-			Play.Connect("0.0.1");
+			Play.UserID = "xxx";
+			Play.Connect("0.0.1", Play.ServerType.Game);
 
 			Assert.That(Done, Is.True.After(2000000));
 		}
@@ -22,14 +21,14 @@ namespace UnitTest.Mono
 		[PlayEvent]
 		public override void OnAuthenticated()
 		{
-			Play.JoinOrCreateRoom(RandomRoomName);
+			Play.CreateRoom();
 		}
-        
+
 		[PlayEvent]
 		public override void OnCreatedRoom()
 		{
 			var roomName = Play.Room.Name;
-                     
+
 			var initData = new Hashtable();
 			initData.Add("ready", false);
 			initData.Add("gold", 200);

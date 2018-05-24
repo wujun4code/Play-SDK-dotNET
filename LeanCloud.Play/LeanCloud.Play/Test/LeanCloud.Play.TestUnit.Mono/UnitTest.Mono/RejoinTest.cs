@@ -4,54 +4,62 @@ using System.Collections;
 
 namespace UnitTest.Mono
 {
-	[TestFixture()]
-	public class RejoinTest : TestBase
-	{
-		[Test()]
-		public void Rejoin()
-		{
-			Play.UserID = "WuJun";
-			Play.Connect("0.0.1");
+    [TestFixture()]
+    public class RejoinTest : TestBase
+    {
+        [Test()]
+        public void Rejoin()
+        {
+            Play.UserID = "WuJun";
+            Play.Connect("0.0.1");
 
-			Assert.That(Done, Is.True.After(2000000));
-		}
+            Assert.That(Done, Is.True.After(2000000));
+        }
 
-		[PlayEvent]
-		public override void OnAuthenticated()
-		{
-			Play.Log("OnAuthenticated");
+        [PlayEvent]
+        public override void OnAuthenticated()
+        {
+            Play.Log("OnAuthenticated");
 
-			var config = PlayRoom.RoomConfig.Default;
+            var config = PlayRoom.RoomConfig.Default;
 
-			config.CustomRoomProperties = new Hashtable()
-			{
-				{ "rankedPoints", 104 }
-			};
+            config.CustomRoomProperties = new Hashtable()
+            {
+                { "rankedPoints", 104 }
+            };
 
-			config.LobbyMatchKeys = new string[] { "rankedPoints" };
-            
-			config.PlayerTimeToKeep = 30;
+            config.LobbyMatchKeys = new string[] { "rankedPoints" };
 
-			Play.CreateRoom(config);
-		}
+            config.PlayerTimeToKeep = 30;
 
-		[PlayEvent]
-		public override void OnCreatedRoom()
-		{
-			var roomName = Play.Room.Name;
-		}
+            Play.CreateRoom(config, "ranked-game-100");
+        }
 
-		[PlayEvent]
-		public override void OnNewPlayerJoinedRoom(Player player)
-		{
-			var actorId = player.ActorID;
-			var userId = player.UserID;
-		}
+        [PlayEvent]
+        public override void OnCreatedRoom()
+        {
+            var roomName = Play.Room.Name;
+        }
 
-		[PlayEvent]
-		public override void OnPlayerActivityChanged(Player player)
-		{
-			Play.Log(player.UserID, player.ActorID);
-		}
-	}
+        [PlayEvent]
+        public override void OnNewPlayerJoinedRoom(Player player)
+        {
+            Play.Log("OnNewPlayerJoinedRoom");
+            var actorId = player.ActorID;
+            var userId = player.UserID;
+        }
+
+        [PlayEvent]
+        public override void OnPlayerActivityChanged(Player player)
+        {
+            Play.Log("OnPlayerActivityChanged");
+            Play.Log(player.UserID, player.ActorID);
+        }
+
+        [PlayEvent]
+        public override void OnPlayerLeftRoom(Player player)
+        {
+            Play.Log("OnPlayerLeftRoom");
+        }
+    }
 }
