@@ -287,3 +287,5 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 PlayDemo/Temp
+Demo/QuickStart/Temp
+Demo/ThreeCards/Temp

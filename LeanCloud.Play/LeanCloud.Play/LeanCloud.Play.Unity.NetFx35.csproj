@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9792F770-0EB1-484B-8882-A126CDF6C2A3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LeanCloud</RootNamespace>
+    <AssemblyName>LeanCloud.Play</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\Unity35\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;UNITY</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Unity35\LeanCloud.Play.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\Unity35\</OutputPath>
+    <DefineConstants>TRACE;UNITY</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Unity35\LeanCloud.Play.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LeanCloud.Realtime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Unity\35\LeanCloud.Realtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Unity.Compat">
+      <HintPath>Unity\35\Unity.Compat.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Tasks">
+      <HintPath>Unity\35\Unity.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Unity\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>Unity\websocket-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="AssemblyLister">
+      <HintPath>Unity\35\AssemblyLister.dll</HintPath>
+    </Reference>
+    <Reference Include="AssemblyLister">
+      <HintPath>Unity\35\AssemblyLister.dll</HintPath>
+    </Reference>
+    <Reference Include="AssemblyLister">
+      <HintPath>Unity\35\AssemblyLister.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Storage">
+      <HintPath>Unity\35\LeanCloud.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Core">
+      <HintPath>Unity\35\LeanCloud.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Internal\PlaySynchronousObjectSubclassController.cs" />
+    <Compile Include="Internal\PlaySynchronousObjectSubclassInfo.cs" />
+    <Compile Include="IPlayNoticeLisenter.cs" />
+    <Compile Include="Listener\PlayerPropertyListener.cs" />
+    <Compile Include="Listener\PlayRPCListener.cs" />
+    <Compile Include="Listener\RoomJoinListener.cs" />
+    <Compile Include="Listener\RoomLeftListener.cs" />
+    <Compile Include="Listener\RoomListenerBase.cs" />
+    <Compile Include="Listener\RoomMasterClientSwitchListener.cs" />
+    <Compile Include="Listener\RoomOnlineListener.cs" />
+    <Compile Include="Listener\RoomUpdateListener.cs" />
+    <Compile Include="Play.cs" />
+    <Compile Include="PlayAttribute.cs" />
+    <Compile Include="PlayCommand.cs" />
+    <Compile Include="PlayConnection.cs" />
+    <Compile Include="PlayCorePlugins.cs" />
+    <Compile Include="PlayDelegateQueue.cs" />
+    <Compile Include="PlayEnum.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="PlayExtensions.cs" />
+    <Compile Include="PlayFriend.cs" />
+    <Compile Include="PlayIndexer.cs" />
+    <Compile Include="PlayLobby.cs" />
+    <Compile Include="PlayInitializeBehaviour.cs" />
+    <Compile Include="PlayMonoBehaviour.cs" />
+    <Compile Include="PlayPeer.cs" />
+    <Compile Include="PlayRoom.cs" />
+    <Compile Include="PlayRpcMessage.cs" />
+    <Compile Include="PlayStateMachine.cs" />
+    <Compile Include="PlaySynchronousObject.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unity\EventNotification.Unity.cs" />
+    <Compile Include="Unity\HttpExecutor.Unity.cs" />
+    <Compile Include="Unity\Logger.Unity.cs" />
+    <Compile Include="Unity\MissingExtensions.NetFx35.cs" />
+    <Compile Include="Listener\RoomOpenListener.cs" />
+    <Compile Include="Listener\RoomVisibleListener.cs" />
+    <Compile Include="Listener\SocketResponseListener.cs" />
+    <Compile Include="Listener\RoomOfflineListener.cs" />
+    <Compile Include="PlayGameServer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
