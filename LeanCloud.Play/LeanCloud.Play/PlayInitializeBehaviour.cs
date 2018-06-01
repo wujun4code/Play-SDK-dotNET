@@ -83,10 +83,10 @@ namespace LeanCloud
 	public class PlayInitializeBehaviour
 #endif
 	{
-		/// <summary>
-		/// 
-		/// </summary>
-		public virtual void Update()
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void Update()
 		{
 			if (Play.EevntMessageQueue.Count == 0)
 			{
@@ -107,6 +107,8 @@ namespace LeanCloud
 		}
 
 #if UNITY
+        [SerializeField]
+        public string playRouter;
         /// <summary>
         /// 
         /// </summary>
@@ -116,6 +118,10 @@ namespace LeanCloud
             //{
             //    Play.playMQB = this;
             //}
+            if (!string.IsNullOrEmpty(playRouter))
+            {
+                PlayCommand.CustomGameRouter = playRouter;
+            }
             base.Awake();
         }
 
@@ -124,5 +130,5 @@ namespace LeanCloud
 			Play.CloseConnect();
 		}
 #endif
-	}
+    }
 }

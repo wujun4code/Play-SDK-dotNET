@@ -12,6 +12,7 @@ namespace TestUnit.NetFx46
     {
         public CreateRoomTest() : base()
         {
+
         }
 
         [Test]

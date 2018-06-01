@@ -95,6 +95,7 @@
     <Compile Include="CreatePlayerPropertiesTest.cs" />
     <Compile Include="CreateRoomTest.cs" />
     <Compile Include="CreateRoomWithCustomPropertiesTest.cs" />
+    <Compile Include="CustomRouteServerTest.cs" />
     <Compile Include="Docs\SampleConnect.cs" />
     <Compile Include="Docs\SampleCreateRoom.cs" />
     <Compile Include="Docs\SampleJoinRoom.cs" />

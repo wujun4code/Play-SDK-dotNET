@@ -25,6 +25,7 @@ namespace LeanCloud
         internal readonly string GameRouterSchema = "https";
         internal readonly string NorthChinaGameRouterHost = "game-router-cn-n1.leancloud.cn";
         internal readonly string EastChinaGameRouterHost = "game-router-cn-e1.leancloud.cn";
+        internal static string CustomGameRouter { get; set; }
 
 
         internal string GameRouterHost
@@ -133,8 +134,13 @@ namespace LeanCloud
         {
             get
             {
+
                 var uriBuilder = new UriBuilder(this.GameRouterSchema, this.GameRouterHost);
-                uriBuilder.Path = this.ApiVersion + this.RelativeUrl;
+                if (!string.IsNullOrEmpty(CustomGameRouter))
+                {
+                    uriBuilder = new UriBuilder(CustomGameRouter);
+                }
+                uriBuilder.Path = uriBuilder.Path + this.ApiVersion + this.RelativeUrl;
 
                 if (UrlParameters != null)
                 {
