@@ -71,6 +71,7 @@
     <Compile Include="JoinTest.cs" />
     <Compile Include="CreateTest.cs" />
     <Compile Include="RejoinTest.cs" />
+    <Compile Include="CustomRouteServerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
