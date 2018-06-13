@@ -9,11 +9,6 @@ namespace TestUnit.NetFx46
     [TestFixture]
     public class CreateRoomWithCustomPropertiesTest : TestBase
     {
-        public CreateRoomWithCustomPropertiesTest() : base()
-        {
-
-        }
-
         /// <summary>
         /// 测试当前用户随机加入房间之后，其他客户端的房主修改了当前用户的自定义属性，然后当前用户是否触发 OnCustomPropertiesUpdated
         /// </summary>

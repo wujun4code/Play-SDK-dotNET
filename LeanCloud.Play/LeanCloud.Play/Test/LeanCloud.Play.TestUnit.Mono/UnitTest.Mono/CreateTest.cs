@@ -15,6 +15,7 @@ namespace UnitTest.Mono
 		public void Create()
 		{
 			Play.UserID = "xxx";
+            Play.SetRouteServer("http://localhost:5000/play/");
 			Play.Connect("0.0.1");
 
 			Assert.That(Done, Is.True.After(2000000));

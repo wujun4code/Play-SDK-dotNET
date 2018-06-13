@@ -44,6 +44,7 @@ namespace LeanCloud
             /// visible in lobby
             /// </summary>
             public bool IsVisible { get; set; }
+
             /// <summary>
             /// open to join and find
             /// </summary>
