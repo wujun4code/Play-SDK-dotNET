@@ -405,7 +405,7 @@ namespace LeanCloud
                 Body = new Dictionary<string, object>()
                 {
                     { "cmd", "conv"},
-                    { "op", "start"},
+                    { "op", "add-random"},
                 },
             };
             if (matchProperties != null)

@@ -17,8 +17,8 @@ namespace TestUnit.NetFx46
         public void CreateRoomWithCustomProperties()
         {
             Play.UserID = RandomClientId;
+            Play.SetRouteServer("http://localhost:5000/play/");
             Play.Connect("0.0.1");
-
             Assert.That(true, Is.True.After(2000000));
         }
 
@@ -66,7 +66,8 @@ namespace TestUnit.NetFx46
         [PlayEvent]
         public override void OnRoomCustomPropertiesUpdated(Hashtable updatedProperties)
         {
-
+            var level = updatedProperties["level"];
+            Console.WriteLine("level", level);
         }
     }
 }
