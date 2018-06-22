@@ -441,6 +441,16 @@ namespace LeanCloud
             }
         }
 
+        internal Player GetPlayerByActorId(int actorId)
+        {
+            lock (metaDataMutex)
+            {
+                var player = this.playerMap.Values.FirstOrDefault(p => p.ActorID == actorId);
+
+                return player;
+            }
+        }
+
         private PlayIndexer<Player, int> _actorIndexer;
 
         internal PlayIndexer<Player, int> ActorIndexer

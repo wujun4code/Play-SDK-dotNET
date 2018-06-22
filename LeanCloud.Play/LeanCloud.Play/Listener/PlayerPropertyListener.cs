@@ -27,10 +27,11 @@ namespace LeanCloud
                     var prop = metaData as IDictionary<string, object>;
                     if (prop != null)
                     {
-                        var clientId = prop["clientId"] as string;
-                        if (clientId != null)
+                        var actorId = int.Parse(prop["actorId"].ToString());
+
+                        if (actorId > 0)
                         {
-                            var player = Play.Room.GetPlayer(clientId);
+                            var player = Play.Room.GetPlayerByActorId(actorId);
 
                             var customProperties = prop["customProperties"] as IDictionary<string, object>;
                             if (player != null)
@@ -40,7 +41,6 @@ namespace LeanCloud
                             Play.InvokeEvent(PlayEventCode.OnPlayerCustomPropertiesChanged, player, customProperties.ToHashtable());
                         }
                     }
-
                 });
             }
         }

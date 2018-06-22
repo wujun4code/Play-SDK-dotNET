@@ -67,7 +67,7 @@ namespace TestUnit.NetFx46
         public override void OnRoomCustomPropertiesUpdated(Hashtable updatedProperties)
         {
             var level = updatedProperties["level"];
-            Console.WriteLine("level", level);
+            Console.WriteLine("level", level.ToString());
         }
     }
 }
