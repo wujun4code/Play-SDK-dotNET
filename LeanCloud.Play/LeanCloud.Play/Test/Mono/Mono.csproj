@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\..\..\packages\NUnit.3.10.1\build\NUnit.props')" />
+  <Import Project="..\..\..\..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\..\..\..\packages\NUnit.3.10.1\build\NUnit.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3D7BCA15-6631-4282-8013-BA574093EA06}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>UnitTest.Mono</RootNamespace>
+    <AssemblyName>UnitTest.Mono</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="PCLStorage.Abstractions">
+      <HintPath>..\..\..\packages\PCLStorage.1.0.2\lib\net45\PCLStorage.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLStorage">
+      <HintPath>..\..\..\packages\PCLStorage.1.0.2\lib\net45\PCLStorage.dll</HintPath>
+    </Reference>
+    <Reference Include="AssemblyLister">
+      <HintPath>..\..\..\packages\LeanCloud.Storage.2018.5.15.2\lib\net45\AssemblyLister.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Core">
+      <HintPath>..\..\..\packages\LeanCloud.Storage.2018.5.15.2\lib\net45\LeanCloud.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Storage">
+      <HintPath>..\..\..\packages\LeanCloud.Storage.2018.5.15.2\lib\net45\LeanCloud.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Websockets.Net">
+      <HintPath>..\..\..\packages\Websockets.Pcl.1.1.9\lib\net45\Websockets.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="WebSockets.PCL">
+      <HintPath>..\..\..\packages\Websockets.Pcl.1.1.9\lib\net45\WebSockets.PCL.dll</HintPath>
+    </Reference>
+    <Reference Include="LeanCloud.Realtime">
+      <HintPath>..\..\..\packages\LeanCloud.Realtime.2018.4.13.1\lib\net45\LeanCloud.Realtime.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\src\AuthenticateTest.cs">
+      <Link>AuthenticateTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\CreatePlayerPropertiesTest.cs">
+      <Link>CreatePlayerPropertiesTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\CreateRoomTest.cs">
+      <Link>CreateRoomTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\CreateRoomWithCustomPropertiesTest.cs">
+      <Link>CreateRoomWithCustomPropertiesTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\CustomRouteServerTest.cs">
+      <Link>CustomRouteServerTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\FetchRoomListTest.cs">
+      <Link>FetchRoomListTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\FindFriendsTest.cs">
+      <Link>FindFriendsTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\JoinRandomRoomWithLobbyMatchKeysTest.cs">
+      <Link>JoinRandomRoomWithLobbyMatchKeysTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\LeaveRoomTest.cs">
+      <Link>LeaveRoomTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ModifyPlayerPropertiesTest.cs">
+      <Link>ModifyPlayerPropertiesTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\ModifyRoomPropertiesTest.cs">
+      <Link>ModifyRoomPropertiesTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\RoomListFetchTest.cs">
+      <Link>RoomListFetchTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\RPCToMasterClientTest.cs">
+      <Link>RPCToMasterClientTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\SetPlayerPropertiesTest.cs">
+      <Link>SetPlayerPropertiesTest.cs</Link>
+    </Compile>
+    <Compile Include="..\src\TestBase.cs">
+      <Link>TestBase.cs</Link>
+    </Compile>
+    <Compile Include="..\src\RandomJoinTest.cs">
+      <Link>RandomJoinTest.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\LeanCloud.Play.Portable.csproj">
+      <Project>{CCF37D4A-CCFB-4373-A7E4-4C4F73267FC7}</Project>
+      <Name>LeanCloud.Play.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+</Project>

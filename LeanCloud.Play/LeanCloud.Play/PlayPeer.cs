@@ -57,7 +57,7 @@ namespace LeanCloud
                 UrlParameters = new Dictionary<string, object>()
                 {
                     { "appId", AVClient.CurrentConfiguration.ApplicationId },
-                    { "secure" , secure}
+                    { "secure" , secure }
                 },
             };
 

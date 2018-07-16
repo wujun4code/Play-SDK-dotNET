@@ -17,8 +17,7 @@ namespace TestUnit.NetFx46
 
         }
 
-        [Test]
-        [Timeout(300000)]
+        [Test, Timeout(30000)]
         public void CreatePlayerProperties()
         {
             Play.UserID = RandomClientId;

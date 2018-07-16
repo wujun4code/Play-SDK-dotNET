@@ -44,6 +44,7 @@ namespace LeanCloud
             /// visible in lobby
             /// </summary>
             public bool IsVisible { get; set; }
+
             /// <summary>
             /// open to join and find
             /// </summary>
@@ -437,6 +438,16 @@ namespace LeanCloud
                 if (this.playerMap.ContainsKey(playerUserId))
                     return this.playerMap[playerUserId];
                 return null;
+            }
+        }
+
+        internal Player GetPlayerByActorId(int actorId)
+        {
+            lock (metaDataMutex)
+            {
+                var player = this.playerMap.Values.FirstOrDefault(p => p.ActorID == actorId);
+
+                return player;
             }
         }
 

@@ -25,6 +25,7 @@ namespace TestUnit.NetFx46
             Websockets.Net.WebsocketConnection.Link();
             Play.Logger = (message) =>
             {
+                System.Diagnostics.Debug.WriteLine(message);
                 Trace.WriteLine(message);
             };
         }

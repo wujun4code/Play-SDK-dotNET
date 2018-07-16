@@ -91,28 +91,67 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthenticateTest.cs" />
-    <Compile Include="CreatePlayerPropertiesTest.cs" />
-    <Compile Include="CreateRoomTest.cs" />
-    <Compile Include="CreateRoomWithCustomPropertiesTest.cs" />
-    <Compile Include="Docs\SampleConnect.cs" />
-    <Compile Include="Docs\SampleCreateRoom.cs" />
-    <Compile Include="Docs\SampleJoinRoom.cs" />
-    <Compile Include="Docs\SampleSetRoomProperties.cs" />
-    <Compile Include="FetchRoomListTest.cs" />
-    <Compile Include="FindFriendsTest.cs" />
-    <Compile Include="JoinRandomRoomWithLobbyMatchKeysTest.cs" />
-    <Compile Include="LeaveRoomTest.cs" />
-    <Compile Include="ModifyPlayerPropertiesTest.cs" />
-    <Compile Include="ModifyRoomPropertiesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoomListFetchTest.cs" />
-    <Compile Include="RPCToMasterClientTest.cs" />
-    <Compile Include="SetPlayerPropertiesTest.cs" />
-    <Compile Include="TestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="..\src\AuthenticateTest.cs">
+      <Link>AuthenticateTest.cs</Link>
+    </None>
+    <None Include="..\src\CreatePlayerPropertiesTest.cs">
+      <Link>CreatePlayerPropertiesTest.cs</Link>
+    </None>
+    <None Include="..\src\CreateRoomTest.cs">
+      <Link>CreateRoomTest.cs</Link>
+    </None>
+    <None Include="..\src\CreateRoomWithCustomPropertiesTest.cs">
+      <Link>CreateRoomWithCustomPropertiesTest.cs</Link>
+    </None>
+    <None Include="..\src\CustomRouteServerTest.cs">
+      <Link>CustomRouteServerTest.cs</Link>
+    </None>
+    <None Include="..\src\FetchRoomListTest.cs">
+      <Link>FetchRoomListTest.cs</Link>
+    </None>
+    <None Include="..\src\FindFriendsTest.cs">
+      <Link>FindFriendsTest.cs</Link>
+    </None>
+    <None Include="..\src\JoinRandomRoomWithLobbyMatchKeysTest.cs">
+      <Link>JoinRandomRoomWithLobbyMatchKeysTest.cs</Link>
+    </None>
+    <None Include="..\src\LeaveRoomTest.cs">
+      <Link>LeaveRoomTest.cs</Link>
+    </None>
+    <None Include="..\src\ModifyPlayerPropertiesTest.cs">
+      <Link>ModifyPlayerPropertiesTest.cs</Link>
+    </None>
+    <None Include="..\src\ModifyRoomPropertiesTest.cs">
+      <Link>ModifyRoomPropertiesTest.cs</Link>
+    </None>
+    <None Include="..\src\RoomListFetchTest.cs">
+      <Link>RoomListFetchTest.cs</Link>
+    </None>
+    <None Include="..\src\RPCToMasterClientTest.cs">
+      <Link>RPCToMasterClientTest.cs</Link>
+    </None>
+    <None Include="..\src\SetPlayerPropertiesTest.cs">
+      <Link>SetPlayerPropertiesTest.cs</Link>
+    </None>
+    <None Include="..\src\TestBase.cs">
+      <Link>TestBase.cs</Link>
+    </None>
+    <None Include="..\src\Docs\SampleConnect.cs">
+      <Link>Docs\SampleConnect.cs</Link>
+    </None>
+    <None Include="..\src\Docs\SampleCreateRoom.cs">
+      <Link>Docs\SampleCreateRoom.cs</Link>
+    </None>
+    <None Include="..\src\Docs\SampleJoinRoom.cs">
+      <Link>Docs\SampleJoinRoom.cs</Link>
+    </None>
+    <None Include="..\src\Docs\SampleSetRoomProperties.cs">
+      <Link>Docs\SampleSetRoomProperties.cs</Link>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LeanCloud.Play.Portable.csproj">

@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace TestUnit.NetFx46
 {
-    [TestFixture]
+    [TestFixture()]
     public class AuthenticateTest
     {
         [SetUp]

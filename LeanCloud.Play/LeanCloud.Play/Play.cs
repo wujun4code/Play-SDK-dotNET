@@ -255,6 +255,16 @@ namespace LeanCloud
         #endregion
 
         #region public methods
+
+        /// <summary>
+        /// set the route server.
+        /// </summary>
+        /// <param name="routeServer"></param>
+        public static void SetRouteServer(string routeServer)
+        {
+            PlayCommand.CustomGameRouter = routeServer;
+        }
+
         /// <summary>
         /// Server type.
         /// </summary>
@@ -395,7 +405,7 @@ namespace LeanCloud
                 Body = new Dictionary<string, object>()
                 {
                     { "cmd", "conv"},
-                    { "op", "start"},
+                    { "op", "add-random"},
                 },
             };
             if (matchProperties != null)
