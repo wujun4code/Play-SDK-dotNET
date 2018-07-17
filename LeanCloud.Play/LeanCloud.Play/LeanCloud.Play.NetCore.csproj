@@ -1,0 +1,34 @@
+
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netcoreapp2.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<RootNamespace>LeanCloud.Play</RootNamespace>
+		<AssemblyName>LeanCloud.Play</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="Test\**\*.cs" />
+		<Compile Remove="Public\Unity\*.cs" />
+    <Compile Remove="Unity\*.cs" />
+		<Compile Remove="Properties\*.cs" />
+		<Compile Remove="Internal\WebSocket\NetFx45\*.cs" />
+		<Compile Remove="Internal\WebSocket\Portable\*.cs" />
+		<Compile Remove="Internal\WebSocket\Unity\*.cs" />
+		<Compile Remove="Internal\Timer\Unity\*.cs" />
+		<Compile Remove="IPlayNoticeLisenter.cs" />
+	</ItemGroup>
+	<ItemGroup>
+    <None Remove="Unity\**" />
+		<None Remove="Test\**" />
+		<None Remove="Unity35.libs\**" />
+		<None Remove="Unity.libs\**" />
+		<None Remove="packages\**" />
+		<None Remove="link.xml" />
+		<None Remove="packages.config" />
+		<None Remove="Internal\WebSocket\Unity\*.dll" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="LeanCloud.Realtime" Version="2018.7.17.3" />
+	  <PackageReference Include="LeanCloud.Storage" Version="2018.7.17.6" />
+	</ItemGroup>
+</Project>
