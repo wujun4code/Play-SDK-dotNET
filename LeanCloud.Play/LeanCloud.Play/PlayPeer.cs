@@ -88,7 +88,7 @@ namespace LeanCloud
 
                 Play.RunSocketCommand(sessionOpenCmd, PlayEventCode.OnAuthenticating, done: (req, res) =>
                  {
-                     this.SessionToken = res.Body["st"] as string;
+                     //this.SessionToken = res.Body["st"] as string;
                  });
             });
         }
@@ -124,7 +124,7 @@ namespace LeanCloud
 
             Play.RunHttpCommand(authCommand, PlayEventCode.OnAuthenticating, (req, resp) =>
             {
-                this.SessionToken = resp.Body["token"] as string;
+                //this.SessionToken = resp.Body["token"] as string;
             });
         }
 
@@ -137,7 +137,7 @@ namespace LeanCloud
                     { "cmd", "session"},
                     { "op", "open"},
                     { "ua" ,Play.PlayVersion+"_" + Play.GameVersion},
-                    { "st", SessionToken}
+                    //{ "st", SessionToken}
                 }
             };
             Play.RunSocketCommand(sessionCommand, done: (req, response) =>
@@ -259,18 +259,18 @@ namespace LeanCloud
             return Play.RandomHexString(length);
         }
 
-        private string sessionToken;
-        public string SessionToken
-        {
-            get
-            {
-                return sessionToken;
-            }
-            internal set
-            {
-                sessionToken = value;
-                PlayCommand.SetAuthentication(value);
-            }
-        }
+        //private string sessionToken;
+        //public string SessionToken
+        //{
+        //    get
+        //    {
+        //        return sessionToken;
+        //    }
+        //    internal set
+        //    {
+        //        sessionToken = value;
+        //        PlayCommand.SetAuthentication(value);
+        //    }
+        //}
     }
 }

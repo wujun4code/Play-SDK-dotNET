@@ -220,13 +220,13 @@ namespace LeanCloud
             }
         }
 
-        internal static string SessionToken
-        {
-            get
-            {
-                return peer.SessionToken;
-            }
-        }
+        //internal static string SessionToken
+        //{
+        //    get
+        //    {
+        //        return peer.SessionToken;
+        //    }
+        //}
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="T:LeanCloud.Play"/> is master client.
