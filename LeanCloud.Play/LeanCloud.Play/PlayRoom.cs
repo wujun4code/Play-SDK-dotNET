@@ -12,7 +12,7 @@ namespace LeanCloud
     /// 
     /// </summary>
     [PlaySynchronizeObjectName("_PlayRoom")]
-    public class PlayRoom : PlaySynchronousObject
+    public class PlayRoom : PlaySynchronousObject, IEquatable<PlayRoom>
     {
 
         /// <summary>
@@ -524,6 +524,28 @@ namespace LeanCloud
                     playerMap.Add(userId, new Player(new PlayPeer(userId), this));
                 }
             });
+        }
+
+        internal static IEnumerable<PlayRoom> FromServerNotice(object metaData)
+        {
+            var roomList = metaData as List<object>;
+            if (roomList != null)
+            {
+                var result = roomList.Select(roomMetaDataObj =>
+                {
+                    var room = new PlayRoom();
+                    IDictionary<string, object> roomMetaData = roomMetaDataObj as IDictionary<string, object>;
+                    room.MergeFromServer(roomMetaData);
+                    return room;
+                });
+                return result;
+            }
+            return new List<PlayRoom>();
+        }
+
+        public bool Equals(PlayRoom other)
+        {
+            return this.Name == other.Name;
         }
     }
 }

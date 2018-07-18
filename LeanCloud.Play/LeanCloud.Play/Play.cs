@@ -40,6 +40,7 @@ namespace LeanCloud
             Play.SubscribeNoticeReceived(new PlayerPropertyListener());
             Play.SubscribeNoticeReceived(new RoomOpenListener());
             Play.SubscribeNoticeReceived(new RoomVisibleListener());
+            Play.SubscribeNoticeReceived(new LobbyRoomListener());
             Play.StartListen();
 
             Play.RegisterSynchronousObjectType<PlayRoom>();
@@ -377,7 +378,6 @@ namespace LeanCloud
             {
                 // get game server address from game router
                 var roomRemoteSecureAddress = response.Body["secureAddr"] as string;
-                var roomRemoteAddress = response.Body["addr"] as string;
 
                 // open websocket connection with game server
                 DoConnectToGameSever(roomRemoteSecureAddress, () =>
@@ -703,7 +703,7 @@ namespace LeanCloud
             room.SetProperties(response.Body.Filter(invalidKeys));
         }
 
-        internal static void DoConnectToGameSever(PlayGameServer server, Action connected)
+        internal static void DoConnectToServer(PlayServer server, Action connected)
         {
             if (string.IsNullOrEmpty(server.Url))
             {

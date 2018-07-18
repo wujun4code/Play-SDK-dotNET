@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{1C9DB209-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest.NetCore", "LeanCloud.Play\Test\UnitTest.NetCore\UnitTest.NetCore.csproj", "{0DE69D02-CA71-4194-A8EE-95FCF7F9B7DF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{DA69B9A8-0E10-4347-A7DB-67C8735272E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp.Minimum", "LeanCloud.Play\Test\ConsoleApp.Minimum\ConsoleApp.Minimum.csproj", "{5C182E64-C0B9-4617-BCA9-E010BCF86578}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +25,13 @@ Global
 		{0DE69D02-CA71-4194-A8EE-95FCF7F9B7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DE69D02-CA71-4194-A8EE-95FCF7F9B7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DE69D02-CA71-4194-A8EE-95FCF7F9B7DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C182E64-C0B9-4617-BCA9-E010BCF86578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C182E64-C0B9-4617-BCA9-E010BCF86578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C182E64-C0B9-4617-BCA9-E010BCF86578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C182E64-C0B9-4617-BCA9-E010BCF86578}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0DE69D02-CA71-4194-A8EE-95FCF7F9B7DF} = {1C9DB209-FC4C-4D2D-B239-46FA74E110A8}
+		{5C182E64-C0B9-4617-BCA9-E010BCF86578} = {DA69B9A8-0E10-4347-A7DB-67C8735272E3}
 	EndGlobalSection
 EndGlobal

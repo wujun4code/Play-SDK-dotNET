@@ -49,7 +49,7 @@ namespace LeanCloud
         /// </summary>
         /// <param name="secure">If set to <c>true</c> secure.</param>
         /// <param name="lobbyLoaded">after lobby loaded.</param>
-		public void GetLobbyServer(bool secure = true, Action<PlayGameServer> lobbyLoaded = null)
+        public void GetLobbyServer(bool secure = true, Action<PlayLobby> lobbyLoaded = null)
         {
             var lobbyGetCmd = new PlayCommand()
             {
@@ -63,17 +63,40 @@ namespace LeanCloud
 
             Play.RunHttpCommand(lobbyGetCmd, done: (request, response) =>
             {
-                var gameServer = Play.GameServer = PlayGameServer.FetchFromPublicCloud(response);
+                var lobbyServer = Play.lobby = PlayLobby.FetchFromPublicCloud(response);
                 if (lobbyLoaded != null)
                 {
-                    lobbyLoaded(gameServer);
+                    lobbyLoaded(lobbyServer);
                 }
+            });
+        }
+
+        public void ConnnectLobby()
+        {
+            Play.DoConnectToServer(Play.lobby, () =>
+            {
+                var sessionOpenCmd = new PlayCommand()
+                {
+                    Body = new Dictionary<string, object>()
+                    {
+                        { "cmd", "session"},
+                        { "op", "open"},
+                        { "ua" ,Play.PlayVersion+"_" + Play.GameVersion},
+                        { "peerId", this.ID }
+                    }
+                };
+
+                Play.RunSocketCommand(sessionOpenCmd, PlayEventCode.OnAuthenticating, done: (req, res) =>
+                {
+                    //this.SessionToken = res.Body["st"] as string;
+                    Play.lobby.Join();
+                });
             });
         }
 
         public void ConnectGameServer()
         {
-            Play.DoConnectToGameSever(Play.GameServer, () =>
+            Play.DoConnectToServer(Play.GameServer, () =>
             {
                 var sessionOpenCmd = new PlayCommand()
                 {
@@ -100,7 +123,7 @@ namespace LeanCloud
         {
             GetLobbyServer(lobbyLoaded: (gameServer) =>
             {
-                ConnectGameServer();
+                ConnnectLobby();
             });
         }
 

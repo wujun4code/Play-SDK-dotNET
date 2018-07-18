@@ -12,6 +12,7 @@ namespace UnitTest.NetCore
             AVClient.Initialize("315XFAYyIGPbd98vHPCBnLre-9Nh9j0Va", "Y04sM6TzhMSBmCMkwfI3FpHc");
             Play.ToggleLog(true);
             Play.UserID = "wujun";
+            Play.SetRouteServer("http://localhost:3000/play");
             Play.Connect("0.0.1");
         }
 
