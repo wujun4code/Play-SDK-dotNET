@@ -372,6 +372,7 @@ namespace LeanCloud
             if (string.IsNullOrEmpty(roomName))
             {
                 roomName = PlayRoom.RandomRoomName(24);
+                createRoomCommand.Body.Add("cid", roomName);
             }
 
             RunSocketCommand(createRoomCommand, done: (request, response) =>
